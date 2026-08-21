@@ -52,7 +52,7 @@ fn main() {
 
     // --- Looping Through a Collection with while (error-prone) ---
     // Using while to index into an array is error-prone (can panic if bounds/index check is wrong)
-    // and slower due to runtime bounds checks on each iteration.
+    // and **slower due to runtime bounds checks on each iteration**.
     let a = [10, 20, 30, 40, 50];
     let mut index = 0;
     while index < 5 {

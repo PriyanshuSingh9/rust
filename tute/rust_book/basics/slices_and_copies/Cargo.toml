@@ -1,0 +1,6 @@
+[package]
+name = "slices_and_copies"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]

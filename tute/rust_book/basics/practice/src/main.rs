@@ -11,6 +11,7 @@ fn main() {
     println!("result: {}", result);
     let (current, step) = collatz(10, 100);
     println!("current: {}, step: {}", current, step);
+    scope_and_shadowing();
     twelve_days_of_christmas();
     let rotated = transform_matrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]]);
     println!("rotated: {:?}", rotated);
@@ -58,10 +59,28 @@ fn iter_fibonnacci(n: u32) -> u64 {
     return fibb;
 }
 
-// Question 4
-// Scope A: x = 32
-// Scope B: x = 26, y = 1
-// x += 10; this line will throw an error as we are changing the value of an immutable varibale. Add a brief note file for scopes as well
+// Question 4: Scope and Shadowing
+// Scope A prints: x = 32
+// Scope B prints: x = 26, y = 16
+fn scope_and_shadowing() {
+    let x = 5;
+    let x = x + 1;
+    let y = {
+        let x = x * 2;
+        let z = {
+            let x = "rust";
+            x.len()
+        };
+        x + (z as i32)
+    };
+    let mut x = y;
+    {
+        let x = x * 2;
+        println!("Scope A: x = {x}");
+    }
+    x += 10;
+    println!("Scope B: x = {x}, y = {y}");
+}
 
 // i used arr.len at first but since we know the array length is 7 we can hard code the values
 fn palindrome_array_seven(arr: [i32; 7]) -> bool {
@@ -165,3 +184,4 @@ fn int_to_array(num: u32) -> [char; 10] {
     }
     arr
 }
+

@@ -1,4 +1,5 @@
-// Every value in Rust is of a certain data type, which tells Rust what kind of data is being specified so that it knows how to work with that data. We’ll look at two data type subsets: scalar and compound.
+// Every value in Rust is of a certain data type, which tells Rust what kind of data is being specified so that it knows how to work with that data.
+// We’ll look at two data type subsets: scalar and compound.
 // Rust is a statically typed language, which means that it must know the types of all variables at compile time.
 
 fn main() {
@@ -9,12 +10,13 @@ fn main() {
     // compiling in release mode with the --release flag, Rust does not include checks for integer overflow that cause panics.
     // usize: unsigned integer sized to the platform's pointer size; commonly used for indexes and sizes.
     // isize: signed integer sized to the platform's pointer size; used when negative values may be needed.
-    //
+
+    // The default integer size is u32/i32
     // The floating-point default type is f64 because on modern CPUs, it's roughly the same speed as f32 but is capable of more precision.
     // All floating-point types are signed.
 
-    // We specify char literals with single quotation marks, as opposed to string literals, which use double quotation marks. Rust’s char type is 4 bytes in size and represents a Unicode scalar value,
-    // which means it can represent a lot more than just ASCII.
+    // We specify char literals with single quotation marks, as opposed to string literals, which use double quotation marks.
+    // Rust's char type is 4 bytes in size and represents a Unicode scalar value, which means it can represent a lot more than just ASCII.
 
     // Compound types can group multiple values into one type.
     // Rust has two primitive compound types: tuples and arrays.
@@ -49,8 +51,18 @@ fn main() {
     println!("a: {a:?}"); // [1, 2, 3, 4, 5]
 
     let months = [
-        "January", "February", "March", "April", "May", "June", "July",
-        "August", "September", "October", "November", "December",
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
     ];
     println!("First month: {}", months[0]); // January
 
@@ -79,4 +91,3 @@ fn main() {
     // This is an example of Rust’s memory safety principles: immediately exiting instead of allowing invalid memory access.
     // let element = a[10]; // This causes a panic / error: index out of bounds
 }
-

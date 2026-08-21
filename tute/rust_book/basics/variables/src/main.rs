@@ -8,7 +8,7 @@ fn main() {
 
     // Constants are always immutable and must be type annotated on declaration
     // Constants can be declared in any scope, including the global scope, which makes them useful for values that many parts of code need to know about.
-    // The last difference is that constants may be set only to a constant expression, not the result of a value that could only be computed at runtime.
+    // Constants may be set only to a constant expression, not the result of a value that could only be computed at runtime.
     const THREE_HOURS_IN_SECONDS: u32 = 3 * 60 * 60;
     println!("Three hours in seconds: {THREE_HOURS_IN_SECONDS}");
 
