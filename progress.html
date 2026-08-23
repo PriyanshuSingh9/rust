@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rust Systems &amp; Distributed Backend Roadmap</title>
+  <link rel="stylesheet" href="notes/assets/style.css">
+  <style>
+    .nav-tabs {
+      display: flex;
+      gap: 0.35rem;
+      border-bottom: 1px solid var(--border-subtle);
+      margin-bottom: 1.75rem;
+      overflow-x: auto;
+      padding-bottom: 1px;
+    }
+    .nav-tab {
+      padding: 0.65rem 1.1rem;
+      cursor: pointer;
+      font-weight: 500;
+      border: 1px solid transparent;
+      border-bottom: none;
+      border-radius: 6px 6px 0 0;
+      background: none;
+      color: var(--text-secondary);
+      font-size: 0.92rem;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+      font-family: var(--font-sans);
+    }
+    .nav-tab:hover {
+      color: var(--text-primary);
+      background: var(--bg-secondary);
+    }
+    .nav-tab.active {
+      color: #ffffff;
+      background: var(--bg-card);
+      border-color: var(--border-subtle);
+      border-bottom: 1px solid var(--bg-card);
+      margin-bottom: -1px;
+      font-weight: 600;
+      border-top: 2px solid var(--accent-ember);
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    .phase-card {
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1.75rem;
+      background: var(--bg-card);
+    }
+    .phase-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    .phase-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #ffffff;
+    }
+    .dual-track-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 0.75rem 0;
+      padding: 0.75rem;
+      background: var(--bg-secondary);
+      border-radius: 6px;
+      border: 1px solid var(--border-subtle);
+    }
+    @media (max-width: 768px) {
+      .dual-track-row {
+        grid-template-columns: 1fr;
+      }
+    }
+    .track-col h4 {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.4rem;
+      font-family: var(--font-mono);
+    }
+    .track-trpl h4 { color: var(--cyan-blue); }
+    .track-ciulla h4 { color: var(--accent-ember-soft); }
+    
+    .bridge-box {
+      margin-top: 1rem;
+      padding: 0.85rem 1rem;
+      background: var(--purple-bg);
+      border: 1px solid rgba(198, 120, 221, 0.3);
+      border-radius: 6px;
+      font-size: 0.9rem;
+    }
+    .bridge-title {
+      font-weight: 600;
+      color: var(--purple-magenta);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.25rem;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+    }
+    .project-box {
+      margin-top: 1rem;
+      padding: 0.85rem 1rem;
+      background: rgba(243, 128, 32, 0.08);
+      border: 1px solid rgba(243, 128, 32, 0.3);
+      border-radius: 6px;
+      font-size: 0.9rem;
+    }
+    .project-title {
+      font-weight: 600;
+      color: #f6821f;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.25rem;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+    }
+    .drill-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 0.6rem;
+      margin-top: 0.6rem;
+    }
+    .drill-pill {
+      background: var(--bg-code);
+      border: 1px solid var(--border-subtle);
+      border-radius: 4px;
+      padding: 0.4rem 0.65rem;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .drill-pill.done {
+      border-color: var(--green-border);
+      background: var(--green-bg);
+      color: var(--green-success);
+    }
+    .callout {
+      border-left: 3px solid var(--accent-ember);
+      background: var(--bg-secondary);
+      padding: 0.85rem 1.1rem;
+      border-radius: 0 6px 6px 0;
+      margin: 1rem 0;
+      font-size: 0.92rem;
+    }
+    .project-card {
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 1.4rem;
+      margin-bottom: 1.35rem;
+      background: var(--bg-card);
+    }
+    .spec-grid {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 0.4rem 1rem;
+      font-size: 0.88rem;
+      margin: 0.75rem 0;
+    }
+    .spec-label {
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+      font-size: 0.82rem;
+    }
+    .spec-val {
+      color: var(--text-secondary);
+    }
+    .diff-badge {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-primary);
+    }
+    .discovery-box {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 0.9rem 1.1rem;
+      margin-bottom: 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.84rem;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-meta">
+      <div>
+        <h1>Rust Systems &amp; Distributed Backend Roadmap</h1>
+        <p style="margin: 0.35rem 0 0; font-size: 0.95rem;">
+          Empirical study log, dual-track curriculum (TRPL &bull; Ciulla), and the curated 5-project systems stack for modern infrastructure engineering.
+        </p>
+      </div>
+      <div style="text-align: right; font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-muted);">
+        <div>Theme: One Dark Pro Max &bull; Ember Noir</div>
+        <div>Target: High-Performance Distributed Systems</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Top Metrics Bar -->
+  <div class="grid-4" style="margin-bottom: 1.75rem;">
+    <div class="metric-box accent">
+      <div class="metric-val">6</div>
+      <div class="metric-lbl">Active Days Verified</div>
+    </div>
+    <div class="metric-box success">
+      <div class="metric-val">30 / 96</div>
+      <div class="metric-lbl">Rustlings Drills (31%)</div>
+    </div>
+    <div class="metric-box info">
+      <div class="metric-val">9</div>
+      <div class="metric-lbl">Git Commits Logged</div>
+    </div>
+    <div class="metric-box">
+      <div class="metric-val">Phase 1</div>
+      <div class="metric-lbl">Current Milestone (55%)</div>
+    </div>
+  </div>
+
+  <!-- Weekly Allocation Strategy -->
+  <div class="card" style="margin-bottom: 1.75rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+      <h3 style="margin: 0; color: #ffffff;">Execution Schedule &amp; Weekly Pacing</h3>
+      <span class="badge badge-progress">Production Engineering Pace</span>
+    </div>
+    <div class="grid-2">
+      <div style="padding: 0.9rem; background: var(--bg-secondary); border-radius: 6px; border: 1px solid var(--border-subtle);">
+        <div style="font-weight: 600; color: var(--cyan-blue); font-family: var(--font-mono); font-size: 0.9rem;">
+          MONDAY – THURSDAY (1 to 2 Hours / Day)
+        </div>
+        <p style="font-size: 0.88rem; color: var(--text-secondary); margin: 0.4rem 0 0;">
+          Theoretical reading (TRPL &amp; Ciulla Handbook chapters). Internalize memory layouts, trait coherence, and borrow checker invariants. Author learning records and update glossary.
+        </p>
+      </div>
+      <div style="padding: 0.9rem; background: var(--bg-secondary); border-radius: 6px; border: 1px solid var(--border-subtle);">
+        <div style="font-weight: 600; color: var(--accent-ember); font-family: var(--font-mono); font-size: 0.9rem;">
+          FRIDAY – SUNDAY (3 to 5 Hours / Day)
+        </div>
+        <p style="font-size: 0.88rem; color: var(--text-secondary); margin: 0.4rem 0 0;">
+          Deep implementation sessions. Solve Rustlings problem sets, build the 5 elite systems projects (arena, stream-slice, mini-git, mini-redis, celld-rs), and write Yapbook production features.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation Tabs -->
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="switchTab('curated')">Elite 5-Project Stack</button>
+    <button class="nav-tab" onclick="switchTab('roadmap')">5-Phase Dual Roadmap</button>
+    <button class="nav-tab" onclick="switchTab('cloudflare')">Cloudflare, Deno &amp; Distributed Backend</button>
+    <button class="nav-tab" onclick="switchTab('yapbook')">Yapbook Engineering Bridge</button>
+    <button class="nav-tab" onclick="switchTab('timeline')">Empirical Daily Log</button>
+    <button class="nav-tab" onclick="switchTab('rustlings')">Rustlings Drill Matrix</button>
+    <button class="nav-tab" onclick="switchTab('findings')">Language Mechanics</button>
+  </div>
+
+  <!-- TAB 0: ELITE 5-PROJECT STACK -->
+  <div id="tab-curated" class="tab-content active">
+    <h2>The Curated 5-Project Systems Stack</h2>
+    <p>
+      High Signal, Zero Redundancy. These 5 projects deliver the highest density of Rust systems mastery while building the exact primitives dominating modern distributed and AI infrastructure.
+    </p>
+
+    <div class="discovery-box">
+      <div style="color: var(--cyan-blue); font-weight: 600; margin-bottom: 0.35rem;">PROBLEM-FIRST DISCOVERY ENGINE</div>
+      <div>Why can't I return this reference? &rarr; <span style="color: var(--accent-ember);">Lifetimes &amp; Arena Handles</span></div>
+      <div>Why is copying killing throughput? &rarr; <span style="color: var(--accent-ember);">Borrowing &amp; Zero-Copy Slicing</span></div>
+      <div>How do I persist immutable graph state? &rarr; <span style="color: var(--accent-ember);">Content-Addressed Storage &amp; Packfiles</span></div>
+      <div>Why does this concurrent server deadlock? &rarr; <span style="color: var(--accent-ember);">Tokio Async &amp; Actor Channels</span></div>
+      <div>How do I build stateful edge actors on S3? &rarr; <span style="color: var(--accent-ember);">S3 CAS Leases &amp; SQLite LTX Continuous Replication</span></div>
+    </div>
+
+    <!-- Project 1: arena -->
+    <div class="project-card" style="border-left: 4px solid var(--accent-ember);">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem;">
+        <div>
+          <h3 style="margin: 0; color: #ffffff;">1. arena &bull; Typed Arena Allocator &amp; Graph Memory Model</h3>
+          <div style="font-family: var(--font-mono); font-size: 0.84rem; color: var(--accent-ember-soft); margin-top: 0.25rem;">
+            Memory Layer &bull; Lifetimes &bull; Generational Handles &bull; NonNull&lt;T&gt; &bull; Unsafe
+          </div>
+        </div>
+        <div>
+          <span class="diff-badge">Difficulty: 5/10</span>
+          <span class="badge badge-progress" style="margin-left: 0.4rem;">Next Target</span>
+        </div>
+      </div>
+      <div class="spec-grid">
+        <div class="spec-label">Why It Matters:</div>
+        <div class="spec-val">Eliminates lifetime and borrow-checker confusion by demonstrating why ordinary references fail in graph structures and how production compilers/proxies manage memory locality without GC.</div>
+        <div class="spec-label">Key Features:</div>
+        <div class="spec-val">Safe handle-based index allocator (<code>NodeId(usize)</code>), parent/child cyclic graph allocations without <code>Rc&lt;RefCell&gt;</code> overhead, generational handle reuse, and an unsafe block chunk allocator using <code>NonNull&lt;T&gt;</code>.</div>
+        <div class="spec-label">Deliverable:</div>
+        <div class="spec-val">Zero-fragmentation typed arena allocator verified with Miri for zero undefined behavior and benchmarked against standard heap allocation.</div>
+      </div>
+    </div>
+
+    <!-- Project 2: stream-slice -->
+    <div class="project-card" style="border-left: 4px solid var(--cyan-blue);">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem;">
+        <div>
+          <h3 style="margin: 0; color: #ffffff;">2. stream-slice &bull; Zero-Copy Streaming Ingestion Engine</h3>
+          <div style="font-family: var(--font-mono); font-size: 0.84rem; color: var(--cyan-blue); margin-top: 0.25rem;">
+            Ingestion Layer &bull; Zero-Copy &bull; &amp;[u8] Slices &bull; mmap &bull; Yapbook Feature P2/P3
+          </div>
+        </div>
+        <div>
+          <span class="diff-badge">Difficulty: 6/10</span>
+          <span class="badge badge-pending" style="margin-left: 0.4rem;">Queued</span>
+        </div>
+      </div>
+      <div class="spec-grid">
+        <div class="spec-label">Why It Matters:</div>
+        <div class="spec-val">Direct implementation of <a href="file:///home/bhondu/coding/projects/yapbook" style="color: var(--cyan-blue);">Yapbook Feature P2 &amp; P3</a>. Teaches the zero-allocation packet and log filtering techniques used in Cloudflare WAF and line-rate proxies.</div>
+        <div class="spec-label">Key Features:</div>
+        <div class="spec-val">Memory-mapped files (<code>memmap2</code>), byte slice tokenization (<code>&amp;[u8]</code>), borrowed message AST representation, malformed input recovery, and streaming single-pass $O(N)$ metric analytics.</div>
+        <div class="spec-label">Deliverable:</div>
+        <div class="spec-val">Parses 126k WhatsApp/access log records with zero heap allocations in the hot loop, maintaining peak RAM &lt; 10 MB.</div>
+      </div>
+    </div>
+
+    <!-- Project 3: mini-git -->
+    <div class="project-card" style="border-left: 4px solid var(--purple-magenta);">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem;">
+        <div>
+          <h3 style="margin: 0; color: #ffffff;">3. mini-git &bull; Content-Addressed Object Store &amp; Packfile Engine</h3>
+          <div style="font-family: var(--font-mono); font-size: 0.84rem; color: var(--purple-magenta); margin-top: 0.25rem;">
+            Storage Layer &bull; Enums &bull; SHA-256 Content-Addressing &bull; DAGs &bull; Delta Packfiles
+          </div>
+        </div>
+        <div>
+          <span class="diff-badge">Difficulty: 7/10</span>
+          <span class="badge badge-pending" style="margin-left: 0.4rem;">Queued</span>
+        </div>
+      </div>
+      <div class="spec-grid">
+        <div class="spec-label">Why It Matters:</div>
+        <div class="spec-val">Master content-addressable storage, hashing, and DAG traversals-the direct foundation for Cursor Continuity and Cloudflare Artifacts.</div>
+        <div class="spec-label">Key Features:</div>
+        <div class="spec-val">Object DAG (blobs, trees, commits, tags), SHA-1 and SHA-256 object hashing, staging index parser (<code>.git/index</code>), refs resolution (HEAD, branches), tree diffing, packfile builder and delta-compression reader, corruption detection.</div>
+        <div class="spec-label">Deliverable:</div>
+        <div class="spec-val">A functional Git plumbing CLI capable of committing, hashing, and generating valid packfiles readable by standard <code>git</code>.</div>
+      </div>
+    </div>
+
+    <!-- Project 4: mini-redis -->
+    <div class="project-card" style="border-left: 4px solid var(--green-success);">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem;">
+        <div>
+          <h3 style="margin: 0; color: #ffffff;">4. mini-redis &bull; High-Concurrency Async TCP Gateway &amp; Actor Store</h3>
+          <div style="font-family: var(--font-mono); font-size: 0.84rem; color: var(--green-success); margin-top: 0.25rem;">
+            Networking Layer &bull; Tokio Async &bull; RESP Protocol &bull; Lock-Striping &bull; Yapbook P4
+          </div>
+        </div>
+        <div>
+          <span class="diff-badge">Difficulty: 7/10</span>
+          <span class="badge badge-pending" style="margin-left: 0.4rem;">Queued</span>
+        </div>
+      </div>
+      <div class="spec-grid">
+        <div class="spec-label">Why It Matters:</div>
+        <div class="spec-val">Combines high-concurrency TCP proxying (Cloudflare Pingora style) with actor-based database isolation (Yapbook Feature P4 SQLite Single Writer Actor).</div>
+        <div class="spec-label">Key Features:</div>
+        <div class="spec-val">Tokio non-blocking TCP event loop, RESP wire frame decoder, lock-striped in-memory store, commands (<code>GET, SET, DEL, EXPIRE, TTL, INCR</code>), pipelining, backpressure, connection limits, and graceful socket shutdown.</div>
+        <div class="spec-label">Deliverable:</div>
+        <div class="spec-val">High-throughput async server sustaining 50,000 concurrent client requests without dropping connections or leaking file descriptors.</div>
+      </div>
+    </div>
+
+    <!-- Project 5: celld-rs (Signature Capstone) -->
+    <div class="project-card" style="border-left: 4px solid #f6821f;">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem;">
+        <div>
+          <h3 style="margin: 0; color: #ffffff;">5. celld-rs &bull; Distributed Durable Objects Engine (Signature Capstone)</h3>
+          <div style="font-family: var(--font-mono); font-size: 0.84rem; color: #f6821f; margin-top: 0.25rem;">
+            Distributed State &bull; Dual WASI 0.2/V8 &bull; S3 CAS Leases &bull; In-Cell Vector Search &bull; Turmoil Chaos Suite
+          </div>
+        </div>
+        <div>
+          <span class="diff-badge">Difficulty: 9.5/10</span>
+          <span class="badge badge-cloudflare" style="margin-left: 0.4rem;">Signature Capstone</span>
+        </div>
+      </div>
+      <div class="spec-grid">
+        <div class="spec-label">Why It Matters:</div>
+        <div class="spec-val">Direct implementation of the <a href="https://celld.dev" target="_blank" style="color: var(--accent-ember);">Deno celld</a> and <a href="https://developers.cloudflare.com/durable-objects/" target="_blank" style="color: var(--accent-ember);">Cloudflare Durable Objects</a> architecture with 5 staff-grade innovations.</div>
+        <div class="spec-label">5 Standout Features:</div>
+        <div class="spec-val">
+          1. <strong>Dual WASI 0.2 + V8 Runtime:</strong> Run JS/TS workers or compiled Rust/Go/Zig Wasm components with &lt; 1ms wake and deterministic fuel limits.<br>
+          2. <strong>Turmoil Chaos Suite:</strong> Automated deterministic Jepsen-style network partition and SIGKILL simulation proving RPO=0 in CI.<br>
+          3. <strong>In-Cell Vector Search:</strong> Embedded <code>sqlite-vec</code> enabling stateful AI agents with local semantic memory.<br>
+          4. <strong>Zero-Copy Local IPC:</strong> Lock-free intra-node ring buffers delivering &lt; 5 µs cross-cell messaging.<br>
+          5. <strong>Group Commit Pipelining:</strong> Pipelined LTX WAL flushes to S3 Express One Zone / Cloudflare R2 cutting commit latency to &lt; 10ms.
+        </div>
+        <div class="spec-label">Deliverable:</div>
+        <div class="spec-val">A production-grade distributed Rust daemon that spawns, hibernates, wakes, and replicates thousands of isolated stateful actors over S3 with zero data loss on node crashes.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 1: ROADMAP & PHASES -->
+  <div id="tab-roadmap" class="tab-content">
+    <h2>Dual-Track Roadmap: TRPL &bull; Ciulla &bull; 5-Project Stack</h2>
+    <p>
+      Synergistic learning structure combining standard library theoretical foundations (The Rust Book) with modern industrial tooling (Francesco Ciulla Handbook) and the Elite 5-Project Stack.
+    </p>
+
+    <!-- Phase 1 -->
+    <div class="phase-card">
+      <div class="phase-header">
+        <div>
+          <span class="phase-title">Phase 1: Memory Semantics, Ownership &amp; The Type System</span>
+          <span class="badge badge-progress" style="margin-left: 0.5rem;">In Progress (45%)</span>
+        </div>
+        <div style="font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-muted);">
+          Duration: 2–3 Weeks &bull; Target: Ch 4–9
+        </div>
+      </div>
+      <div class="progress-bar-container">
+        <div class="progress-bar-fill" style="width: 55%;"></div>
+      </div>
+
+      <div class="dual-track-row">
+        <div class="track-col track-trpl">
+          <h4>Track A: The Official Rust Book (TRPL)</h4>
+          <div style="font-size: 0.88rem; color: var(--text-secondary);">
+            &bull; <strong>Ch 1:</strong> Cargo &amp; Toolchain <span class="badge badge-complete">DONE</span><br>
+            &bull; <strong>Ch 2:</strong> Guessing Game (io, rand, match) <span class="badge badge-complete">DONE</span><br>
+            &bull; <strong>Ch 3:</strong> Variables, Types, Functions, Loops <span class="badge badge-complete">DONE</span><br>
+            &bull; <strong>Ch 4:</strong> Ownership, Borrowing &amp; Slices <span class="badge badge-complete">DONE</span><br>
+            &bull; <strong>Ch 5:</strong> Structs, Methods &amp; Associated Functions <span class="badge badge-progress">CURRENT</span><br>
+            &bull; <strong>Ch 6:</strong> Enums, Option, Result &amp; Pattern Matching<br>
+            &bull; <strong>Ch 7:</strong> Modules, Packages &amp; Visibility (<code>pub(crate)</code>)<br>
+            &bull; <strong>Ch 8:</strong> Collections (Vec, String, HashMap Entry API)<br>
+            &bull; <strong>Ch 9:</strong> Error Handling (<code>Result</code>, <code>?</code> operator, panics)
+          </div>
+        </div>
+        <div class="track-col track-ciulla">
+          <h4>Track B: Francesco Ciulla Handbook</h4>
+          <div style="font-size: 0.88rem; color: var(--text-secondary);">
+            &bull; <strong>Ch 1:</strong> Modern Rust Setup &amp; Ecosystem <span class="badge badge-complete">DONE</span><br>
+            &bull; <strong>Ch 2–3:</strong> Expressions, Syntax &amp; Scalar Memory <span class="badge badge-complete">DONE</span><br>
+            &bull; <strong>Ch 4:</strong> Ownership, Borrowing &amp; References <span class="badge badge-complete">DONE</span><br>
+            &bull; <strong>Ch 5:</strong> Structs, Tuple Structs &amp; Enums <span class="badge badge-progress">CURRENT</span><br>
+            &bull; <strong>Ch 6:</strong> Modern Error Handling with <code>thiserror</code> &amp; <code>anyhow</code>
+          </div>
+        </div>
+      </div>
+
+      <div class="bridge-box">
+        <div class="bridge-title">Yapbook Learning Bridge (Sprint 1)</div>
+        <div>
+          Implement <strong>Feature P1</strong> (Global <code>AppError</code> with <code>thiserror</code>, Tauri IPC commands) and <strong>Feature P2</strong> (Streaming WhatsApp zero-copy parser with <code>&amp;str</code>/<code>&amp;[u8]</code> preserving peak RAM &lt; 10 MB on 126k messages).
+        </div>
+      </div>
+
+      <div class="project-box">
+        <div class="project-title">Elite Project 1 &bull; arena (Typed Memory Arena &amp; Graph Allocator)</div>
+        <div>
+          Build <code>arena</code> (typed memory arena confronting self-referential reference graphs, generational indexing, and <code>NonNull&lt;T&gt;</code> memory blocks).
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 2 -->
+    <div class="phase-card">
+      <div class="phase-header">
+        <div>
+          <span class="phase-title">Phase 2: Traits, Generics, Functional Idioms &amp; Zero-Copy Parsing</span>
+          <span class="badge badge-pending" style="margin-left: 0.5rem;">Pending</span>
+        </div>
+        <div style="font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-muted);">
+          Duration: 2–3 Weeks &bull; Target: Ch 10–14
+        </div>
+      </div>
+
+      <div class="dual-track-row">
+        <div class="track-col track-trpl">
+          <h4>Track A: The Official Rust Book (TRPL)</h4>
+          <div style="font-size: 0.88rem; color: var(--text-secondary);">
+            &bull; <strong>Ch 10:</strong> Generic Types, Trait Bounds, Lifetime Annotations (<code>'a</code>)<br>
+            &bull; <strong>Ch 11:</strong> Writing Automated Unit &amp; Integration Tests (<code>#[cfg(test)]</code>)<br>
+            &bull; <strong>Ch 12:</strong> CLI I/O Project (<code>minigrep</code> architecture)<br>
+            &bull; <strong>Ch 13:</strong> Functional Features: Iterators (<code>map, fold, filter</code>) &amp; Closures (<code>Fn, FnMut, FnOnce</code>)<br>
+            &bull; <strong>Ch 14:</strong> More About Cargo &amp; Workspaces
+          </div>
+        </div>
+        <div class="track-col track-ciulla">
+          <h4>Track B: Francesco Ciulla Handbook</h4>
+          <div style="font-size: 0.88rem; color: var(--text-secondary);">
+            &bull; <strong>Ch 7:</strong> Traits, Trait Bounds &amp; Operator Overloading<br>
+            &bull; <strong>Ch 8:</strong> Generics &amp; Static Dispatch (Monomorphization)<br>
+            &bull; <strong>Ch 9:</strong> Functional Idioms, Custom Iterators &amp; Zero-Cost Combinators<br>
+            &bull; <strong>Ch 10:</strong> Testing, TDD &amp; Test Doubles
+          </div>
+        </div>
+      </div>
+
+      <div class="bridge-box">
+        <div class="bridge-title">Yapbook Learning Bridge (Sprint 2)</div>
+        <div>
+          Implement <strong>Feature P3</strong> (Single-pass O(N) analytics accumulator computing volume, activity heatmaps, and N×N directional reply matrices in &lt; 500ms) and custom <code>impl&lt;R: BufRead&gt; Iterator for WhatsAppParser&lt;R&gt;</code>.
+        </div>
+      </div>
+
+      <div class="project-box">
+        <div class="project-title">Elite Projects 2 &amp; 3 &bull; stream-slice &amp; mini-git</div>
+        <div>
+          Build <code>stream-slice</code> (zero-copy parser over 126k messages with peak RAM &lt; 10MB) and <code>mini-git</code> (content-addressed Git object database with blobs, trees, commits, and packfiles).
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 3 -->
+    <div class="phase-card">
+      <div class="phase-header">
+        <div>
+          <span class="phase-title">Phase 3: Smart Pointers, Concurrency &amp; Async Networking</span>
+          <span class="badge badge-pending" style="margin-left: 0.5rem;">Pending</span>
+        </div>
+        <div style="font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-muted);">
+          Duration: 3–4 Weeks &bull; Target: Ch 15–21 + Mara Bos
+        </div>
+      </div>
+
+      <div class="dual-track-row">
+        <div class="track-col track-trpl">
+          <h4>Track A: The Official Rust Book (TRPL)</h4>
+          <div style="font-size: 0.88rem; color: var(--text-secondary);">
+            &bull; <strong>Ch 15:</strong> Smart Pointers (<code>Box, Rc, Arc, RefCell</code>, Interior Mutability, Deref/Drop)<br>
+            &bull; <strong>Ch 16:</strong> Fearless Concurrency (<code>std::thread, mpsc</code>, <code>Send/Sync</code> auto-traits)<br>
+            &bull; <strong>Ch 17:</strong> Async / Await, Futures, Streams &amp; Pinning<br>
+            &bull; <strong>Ch 18:</strong> Object-Oriented Patterns &amp; Type-State Encodings<br>
+            &bull; <strong>Ch 21:</strong> Multithreaded TCP Web Server with custom threadpool
+          </div>
+        </div>
+        <div class="track-col track-ciulla">
+          <h4>Track B: Francesco Ciulla Handbook</h4>
+          <div style="font-size: 0.88rem; color: var(--text-secondary);">
+            &bull; <strong>Ch 11:</strong> Smart Pointers &amp; Memory Layout Invariants<br>
+            &bull; <strong>Ch 12:</strong> Systems I/O &amp; TCP Socket Networking<br>
+            &bull; <strong>Ch 13:</strong> Multithreading, Channels &amp; Shared State Concurrency
+          </div>
+        </div>
+      </div>
+
+      <div class="bridge-box">
+        <div class="bridge-title">Yapbook Learning Bridge (Sprint 2 &amp; 3)</div>
+        <div>
+          Implement <strong>Feature P4</strong> (SQLite Single Writer Actor using <code>tokio::sync::mpsc</code> to completely eliminate <code>SQLITE_BUSY</code> lock contention) and <strong>Feature P6</strong> (<code>llama-server</code> child process supervisor with OS process group lifecycle management).
+        </div>
+      </div>
+
+      <div class="project-box">
+        <div class="project-title">Elite Project 4 &bull; mini-redis (Async RESP Protocol &amp; Actor Gateway)</div>
+        <div>
+          Build <code>mini-redis</code> (non-blocking Tokio TCP server with RESP frame decoder, lock-striping, command pipelining, and backpressure).
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 4 & 5 -->
+    <div class="phase-card">
+      <div class="phase-header">
+        <div>
+          <span class="phase-title">Phase 4 &amp; 5: Distributed State, Durable Objects &amp; Capstone</span>
+          <span class="badge badge-pending" style="margin-left: 0.5rem;">Pending</span>
+        </div>
+        <div style="font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-muted);">
+          Duration: 4+ Weeks &bull; Target: Cloudflare Durable Objects / Deno celld
+        </div>
+      </div>
+
+      <div class="dual-track-row">
+        <div class="track-col track-trpl">
+          <h4>Advanced Systems &amp; Unsafe (TRPL Ch 19 + 20 + Nomicon)</h4>
+          <div style="font-size: 0.88rem; color: var(--text-secondary);">
+            &bull; Raw pointers (<code>*const T, *mut T</code>) and undefined behavior boundaries<br>
+            &bull; Safe abstraction encapsulation and UB detection via <code>cargo miri</code><br>
+            &bull; Foreign Function Interface (FFI) with C libraries and <code>bindgen</code><br>
+            &bull; Procedural macro AST code generation (<code>syn, quote, proc_macro</code>)
+          </div>
+        </div>
+        <div class="track-col track-ciulla">
+          <h4>Track B: Francesco Ciulla Handbook</h4>
+          <div style="font-size: 0.88rem; color: var(--text-secondary);">
+            &bull; <strong>Ch 14:</strong> Axum 0.8, SQLx, Postgres &amp; WebAssembly<br>
+            &bull; <strong>Ch 15:</strong> Systems Programming, CLI Tools, FFI with C &amp; Linux Kernel Modules<br>
+            &bull; <strong>Ch 16:</strong> Multi-stage Docker, Alpine musl static compilation &amp; CI/CD
+          </div>
+        </div>
+      </div>
+
+      <div class="bridge-box">
+        <div class="bridge-title">Yapbook Learning Bridge (Sprint 3 &amp; 4)</div>
+        <div>
+          Implement <strong>Feature P7 &amp; P8</strong> (Grammar-constrained LLM inference) and <strong>Feature P10</strong> (Content-addressed immutable artifact store <code>artifacts/objects/{sha256}.png</code>).
+        </div>
+      </div>
+
+      <div class="project-box">
+        <div class="project-title">Signature Capstone &bull; celld-rs (Distributed Durable Objects Engine)</div>
+        <div>
+          Build <code>celld-rs</code> (distributed Cloudflare Durable Objects runtime in safe Rust with S3 CAS leases, sharded SQLite per cell, continuous LTX replication with RPO=0, and sub-5ms hibernation wake).
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 2: CLOUDFLARE & DISTRIBUTED BACKEND -->
+  <div id="tab-cloudflare" class="tab-content">
+    <h2>Cloudflare, Deno &amp; Distributed Systems Career Alignment</h2>
+    <p>
+      Infrastructure engineering at edge scale (similar to Cloudflare Pingora, Durable Objects, and Deno celld) requires mastery of asynchronous network I/O, zero-copy packet processing, connection pooling, and fault-tolerant distributed storage.
+    </p>
+
+    <div class="grid-2" style="margin-bottom: 1.5rem;">
+      <div class="card">
+        <div style="font-weight: 600; color: #f6821f; font-family: var(--font-mono); margin-bottom: 0.5rem;">
+          EDGE PROXY &amp; PROTOCOL MECHANICS (Pingora Alignment)
+        </div>
+        <p style="font-size: 0.88rem;">
+          Cloudflare operates Pingora, their custom async Rust multi-tenant proxy processing hundreds of millions of requests per second.
+        </p>
+        <div style="font-size: 0.85rem; color: var(--text-secondary);">
+          &bull; <strong>Zero-Copy Header &amp; Body Parsing:</strong> Slices (<code>&amp;[u8]</code>) allow inspecting HTTP and WAF rules without heap allocations.<br>
+          &bull; <strong>Connection Multiplexing &amp; Pooling:</strong> Reusing TCP/TLS handshakes using <code>tokio</code> asynchronous drivers.<br>
+          &bull; <strong>Graceful Reloads &amp; Socket Draining:</strong> Transitioning traffic across binary updates without dropping open client sessions.
+        </div>
+      </div>
+
+      <div class="card">
+        <div style="font-weight: 600; color: #f6821f; font-family: var(--font-mono); margin-bottom: 0.5rem;">
+          DISTRIBUTED STATE &amp; STORAGE (celld &amp; Durable Objects Alignment)
+        </div>
+        <p style="font-size: 0.88rem;">
+          Modern edge architectures rely on S3/Object Storage as the linearizable coordinator paired with per-tenant state machines.
+        </p>
+        <div style="font-size: 0.85rem; color: var(--text-secondary);">
+          &bull; <strong>Deno celld Architecture:</strong> Self-hosted Cloudflare Durable Objects using S3 CAS epoch leases and SQLite LTX replication with RPO=0.<br>
+          &bull; <strong>Zero Cluster Consensus:</strong> The S3 bucket is the coordinator, eliminating Paxos/Raft cluster maintenance.<br>
+          &bull; <strong>Extreme Density:</strong> &lt; 0.5 MB RAM per resident cell, waking from sleep in ~4 ms.
+        </div>
+      </div>
+    </div>
+
+    <h3>Standard celld vs Your celld-rs Standout Implementation</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Engineering Dimension</th>
+          <th>Standard celld (Deno)</th>
+          <th>Your celld-rs (Staff-Grade Rust Implementation)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Guest Compute Runtime</strong></td>
+          <td>V8 (JS/TS only)</td>
+          <td><strong>Dual Runtime:</strong> V8 + WASI 0.2 Component Model (Rust/Go/Zig/C++ support)</td>
+        </tr>
+        <tr>
+          <td><strong>In-Memory Wake Time</strong></td>
+          <td>~4 ms</td>
+          <td><strong>&lt; 1 ms</strong> (via Wasmtime WASI 0.2 + pre-warmed SQLite handles)</td>
+        </tr>
+        <tr>
+          <td><strong>Distributed Chaos Testing</strong></td>
+          <td>Basic integration tests</td>
+          <td><strong>Deterministic Turmoil Chaos Suite:</strong> Automated split-brain &amp; SIGKILL verification in CI</td>
+        </tr>
+        <tr>
+          <td><strong>AI Agent Memory</strong></td>
+          <td>Key-Value / Relational SQL</td>
+          <td><strong>In-Cell Vector Search:</strong> Embedded <code>sqlite-vec</code> for local semantic memory</td>
+        </tr>
+        <tr>
+          <td><strong>Intra-Node IPC</strong></td>
+          <td>Loopback HTTP socket calls</td>
+          <td><strong>Zero-Copy Lock-Free Mailbox:</strong> In-memory <code>bytes::Bytes</code> pointer passing (&lt; 5 µs)</td>
+        </tr>
+        <tr>
+          <td><strong>Durable Commit Latency</strong></td>
+          <td>Sequential S3 PUT (~90ms)</td>
+          <td><strong>Pipelined Group Commits:</strong> S3 Express / R2 batching cutting latency to &lt; 10ms</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- TAB 3: YAPBOOK BRIDGE -->
+  <div id="tab-yapbook" class="tab-content">
+    <h2>Yapbook Engineering Bridge: Learning by Building</h2>
+    <p>
+      Direct mapping between your Rust study topics and implementing production features (P1–P12) in <code>/home/bhondu/coding/projects/yapbook</code>.
+    </p>
+
+    <div class="callout">
+      <strong>Core Architectural Invariant:</strong> "Rust owns durable truth and orchestration. Workers perform computation. React owns presentation and interaction."
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Yapbook Milestone</th>
+          <th>Rust Concept &amp; Chapter Mapping</th>
+          <th>Implementation Deliverable</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Feature P1: Data Models &amp; IPC</strong></td>
+          <td>TRPL Ch 5–6 &bull; Ciulla Ch 6 (<code>thiserror</code>)</td>
+          <td>Scaffolding global <code>AppError</code>, message models, and Tauri IPC commands in <code>src-tauri/</code>.</td>
+          <td><span class="badge badge-progress">NEXT UP</span></td>
+        </tr>
+        <tr>
+          <td><strong>Feature P2: Streaming WhatsApp Parser</strong></td>
+          <td>TRPL Ch 4 (Ownership, Slices <code>&amp;str, &amp;[u8]</code>)</td>
+          <td>Zero-copy line tokenizer maintaining peak RAM &lt; 10 MB on 126k messages.</td>
+          <td><span class="badge badge-progress">NEXT UP</span></td>
+        </tr>
+        <tr>
+          <td><strong>Feature P3: Statistical Analytics Engine</strong></td>
+          <td>TRPL Ch 7–8 &bull; Ciulla Ch 9 (HashMaps, Iterators)</td>
+          <td>Single-pass O(N) metric accumulator generating activity heatmaps and N×N reply graphs in &lt; 500ms.</td>
+          <td><span class="badge badge-pending">PENDING</span></td>
+        </tr>
+        <tr>
+          <td><strong>Feature P4: SQLite Single Writer Actor</strong></td>
+          <td>TRPL Ch 15–16 (<code>tokio::sync::mpsc</code>, Smart Pointers)</td>
+          <td>Actor exclusively owning SQLite write connection, eliminating all <code>SQLITE_BUSY</code> lock errors.</td>
+          <td><span class="badge badge-pending">PENDING</span></td>
+        </tr>
+        <tr>
+          <td><strong>Feature P5: Inactivity Session Segmenter</strong></td>
+          <td>TRPL Ch 9–10 (Custom Traits, Generics)</td>
+          <td>30-minute session inactivity splitter with Signal Gate score filtering.</td>
+          <td><span class="badge badge-pending">PENDING</span></td>
+        </tr>
+        <tr>
+          <td><strong>Feature P6: llama-server Supervisor</strong></td>
+          <td>TRPL Ch 16 &bull; Ciulla Ch 13, 15 (Process Lifecycle)</td>
+          <td>Child process supervisor with health polling and automatic process group cleanup on exit.</td>
+          <td><span class="badge badge-pending">PENDING</span></td>
+        </tr>
+        <tr>
+          <td><strong>Feature P7 &amp; P8: Inference &amp; Reducer</strong></td>
+          <td>Async Tokio &bull; JSON Schema state machines</td>
+          <td>Grammar-constrained LLM dispatch and incremental chronological memory reduction.</td>
+          <td><span class="badge badge-pending">PENDING</span></td>
+        </tr>
+        <tr>
+          <td><strong>Feature P9 &amp; P10: Storyboard &amp; CAS Store</strong></td>
+          <td>SHA-256 Content Addressing &bull; Ciulla Ch 15</td>
+          <td>Immutable artifact storage (<code>artifacts/objects/{sha256}.png</code>) and 3–6 panel script generator.</td>
+          <td><span class="badge badge-pending">PENDING</span></td>
+        </tr>
+        <tr>
+          <td><strong>Feature P11 &amp; P12: Native Compositor</strong></td>
+          <td>Ciulla Ch 15 &bull; <code>image</code>, <code>ab_glyph</code>, <code>imageproc</code></td>
+          <td>300 DPI native Rust panel compositor, speech bubble vector renderer, and PDF exporter.</td>
+          <td><span class="badge badge-pending">PENDING</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- TAB 4: EMPIRICAL DAILY TIMELINE -->
+  <div id="tab-timeline" class="tab-content">
+    <h2>Empirical Daily Activity Log</h2>
+    <p>
+      Logged from git commits, file modification timestamps, and active working sessions.
+    </p>
+
+    <div class="timeline-item">
+      <div class="timeline-date">2026-08-23 (Sunday) &bull; Active Working Session</div>
+      <strong style="color: #ffffff;">Vectors &amp; Move Semantics Drill Acceleration (30 / 96 Drills)</strong>
+      <p style="font-size: 0.9rem; margin-top: 0.35rem;">
+        Solved problem sets <code>05_vecs</code> (vecs1-2) and <code>06_move_semantics</code> (move_semantics1-5). Consolidated memory ownership models, mutable callee parameter bindings, non-lexical lifetimes across sequential borrows, and reference vs value transfers.
+      </p>
+      <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">
+        Verified files: <code>tute/rustlings/exercises/05_vecs/*</code>, <code>tute/rustlings/exercises/06_move_semantics/*</code>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-date">2026-08-22 (Saturday) &bull; Active Working Session</div>
+      <strong style="color: #ffffff;">Chapter 4.1 &amp; 4.2 Ownership, References &amp; Pointer Safety</strong>
+      <p style="font-size: 0.9rem; margin-top: 0.35rem;">
+        Completed Chapter 4.1 ownership notes, memory layout diagrams (Stack vs Heap, Box, String), x86-64 MMU paging, segfault exception cycles, and memory safety analysis. Formulated Chapter 4.2 on References &amp; Borrowing, the Pointer Safety Principle (Aliasing + Mutation hazards), the R-W-O permission tracking model, vector reallocation pointer invalidation, and Non-Lexical Lifetimes (NLL).
+      </p>
+      <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">
+        Verified files: <code>notes/chapters/ownership&amp;borrowing.md</code>, <code>notes/chapters/ch04_02_references_and_borrowing.md</code>, <code>notes/chapters/deep_dives/memory_safety_and_hardware_architecture.md</code>, <code>tute/rust_book/ownership/src/main.rs</code>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-date">2026-08-21 18:19:00 (Friday) &bull; Commit <code>653103c</code></div>
+      <strong style="color: #ffffff;">Array Slicing Mechanics &amp; Unsized Type Investigation</strong>
+      <p style="font-size: 0.9rem; margin-top: 0.35rem;">
+        Analyzed why <code>let b = a[1..4];</code> fails due to dynamically sized type <code>[T]</code> requiring fat pointer <code>&amp;[T]</code>. Explored owned copies via <code>.to_vec()</code>, stack array copying, and <code>copy_from_slice()</code>.
+      </p>
+      <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">
+        Verified files: <code>notes/chapters/deep_dives/array_slicing.md</code>, <code>tute/rust_book/basics/slices_and_copies/src/main.rs</code>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-date">2026-08-18 06:34:11 (Tuesday) &bull; Commit <code>e38c0ae</code></div>
+      <strong style="color: #ffffff;">Curriculum Architecture &amp; Scopes Documentation</strong>
+      <p style="font-size: 0.9rem; margin-top: 0.35rem;">
+        Built 5-stage comprehensive mastery roadmap, book breakdowns, and senior mental models. Documented scope lifespans and shadowing mechanics.
+      </p>
+      <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">
+        Verified files: <code>notes/chapters/ch01_03_basics.md</code>, <code>notes/chapters/deep_dives/scopes_and_shadowing.md</code>, <code>notes/roadmap/*</code>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-date">2026-08-17 00:38 - 05:10 (Monday) &bull; Commits <code>5e338e9</code>, <code>dfec267</code>, <code>07334fe</code></div>
+      <strong style="color: #ffffff;">Problem Drills, Control Flow &amp; Algebraic Enums</strong>
+      <p style="font-size: 0.9rem; margin-top: 0.35rem;">
+        Implemented 10 algorithmic problems in <code>practice/src/main.rs</code> (Fibonacci, Collatz, 2D matrix rotation, Christmas lyrics, symmetric palindrome check). Compared Rust enums against TypeScript discriminated unions.
+      </p>
+      <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">
+        Verified files: <code>tute/rust_book/basics/practice/src/main.rs</code>, <code>notes/chapters/deep_dives/enums_and_unions.md</code>, <code>tute/rust_book/basics/loops/*</code>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-date">2026-08-16 23:20:03 (Sunday) &bull; Commit <code>62e518e</code></div>
+      <strong style="color: #ffffff;">Rust Basics: Types, Functions &amp; Expressions</strong>
+      <p style="font-size: 0.9rem; margin-top: 0.35rem;">
+        Created foundational sandboxes for scalar types, compound structures (tuples, fixed arrays), function signatures, statement vs expression rules, and mutability.
+      </p>
+      <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">
+        Verified files: <code>tute/rust_book/basics/data_types/*</code>, <code>functions/*</code>, <code>variables/*</code>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-date">2026-08-15 23:01:19 (Saturday) &bull; Commits <code>2e0a32b</code>, <code>8545d0c</code></div>
+      <strong style="color: #ffffff;">Toolchain Setup &amp; Guessing Game</strong>
+      <p style="font-size: 0.9rem; margin-top: 0.35rem;">
+        Initialized Cargo project structure. Implemented interactive number guessing CLI using <code>rand</code>, terminal standard input, mutable references, and <code>std::cmp::Ordering</code> match arms.
+      </p>
+      <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">
+        Verified files: <code>tute/rust_book/hello_cargo/*</code>, <code>tute/rust_book/guessing_game/*</code>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 5: RUSTLINGS DRILL MATRIX -->
+  <div id="tab-rustlings" class="tab-content">
+    <h2>Rustlings Drill Matrix</h2>
+    <p>Completed 30 of 96 exercises + 1 of 3 quizzes.</p>
+
+    <h3>00_intro (2/2)</h3>
+    <div class="drill-grid">
+      <div class="drill-pill done"><span>intro1.rs</span><span>DONE</span></div>
+      <div class="drill-pill done"><span>intro2.rs</span><span>DONE</span></div>
+    </div>
+
+    <h3>01_variables (6/6)</h3>
+    <div class="drill-grid">
+      <div class="drill-pill done"><span>variables1.rs</span><span>DONE</span></div>
+      <div class="drill-pill done"><span>variables2.rs</span><span>DONE</span></div>
+      <div class="drill-pill done"><span>variables3.rs</span><span>DONE</span></div>
+      <div class="drill-pill done"><span>variables4.rs</span><span>DONE</span></div>
+      <div class="drill-pill done"><span>variables5.rs</span><span>DONE</span></div>
+      <div class="drill-pill done"><span>variables6.rs</span><span>DONE</span></div>
+    </div>
+
+    <h3>02_functions (5/5)</h3>
+    <div class="drill-grid">
+      <div class="drill-pill done"><span>functions1.rs</span><span>DONE</span></div>
+      <div class="drill-pill done"><span>functions2.rs</span><span>DONE</span></div>
+      <div class="drill-pill done"><span>functions3.rs</span><span>DONE</span></div>
+      <div class="drill-pill done"><span>functions4.rs</span><span>DONE</span></div>
+      <div class="drill-pill done"><span>functions5.rs</span><span>DONE</span></div>
+    </div>
+
+    <h3>03_if (3/3)</h3>
+    <div class="drill-grid">
+      <div class="drill-pill done"><span>if1.rs</span><span>DONE</span></div>
+      <div class="drill-pill done"><span>if2.rs</span><span>DONE</span></div>
+      <div class="drill-pill done"><span>if3.rs</span><span>DONE</span></div>
+    </div>
+
+    <h3>quizzes (1/3)</h3>
+    <div class="drill-grid">
+      <div class="drill-pill done"><span>quiz1.rs</span><span>DONE</span></div>
+      <div class="drill-pill"><span>quiz2.rs</span><span>PENDING</span></div>
+      <div class="drill-pill"><span>quiz3.rs</span><span>PENDING</span></div>
+    </div>
+
+    <h3>04_primitive_types (6/6)</h3>
+    <div class="drill-grid">
+      <div class="drill-pill done"><span>primitive_types1.rs</span><span>DONE</span></div>
+      <div class="drill-pill done"><span>primitive_types2.rs</span><span>DONE</span></div>
+      <div class="drill-pill done"><span>primitive_types3.rs</span><span>DONE</span></div>
+      <div class="drill-pill done"><span>primitive_types4.rs</span><span>DONE</span></div>
+      <div class="drill-pill done"><span>primitive_types5.rs</span><span>DONE</span></div>
+      <div class="drill-pill done"><span>primitive_types6.rs</span><span>DONE</span></div>
+    </div>
+
+    <h3>05_vecs (2/2)</h3>
+    <div class="drill-grid">
+      <div class="drill-pill done"><span>vecs1.rs</span><span>DONE</span></div>
+      <div class="drill-pill done"><span>vecs2.rs</span><span>DONE</span></div>
+    </div>
+
+    <h3>06_move_semantics (5/5)</h3>
+    <div class="drill-grid">
+      <div class="drill-pill done"><span>move_semantics1.rs</span><span>DONE</span></div>
+      <div class="drill-pill done"><span>move_semantics2.rs</span><span>DONE</span></div>
+      <div class="drill-pill done"><span>move_semantics3.rs</span><span>DONE</span></div>
+      <div class="drill-pill done"><span>move_semantics4.rs</span><span>DONE</span></div>
+      <div class="drill-pill done"><span>move_semantics5.rs</span><span>DONE</span></div>
+    </div>
+
+    <h3>Upcoming Problem Sets</h3>
+    <div class="drill-grid">
+      <div class="drill-pill"><span>07_structs (3)</span><span>NEXT</span></div>
+      <div class="drill-pill"><span>08_enums (3)</span><span>QUEUED</span></div>
+      <div class="drill-pill"><span>09_strings (4)</span><span>QUEUED</span></div>
+      <div class="drill-pill"><span>10_modules (3)</span><span>QUEUED</span></div>
+      <div class="drill-pill"><span>11_hashmaps (3)</span><span>QUEUED</span></div>
+      <div class="drill-pill"><span>12_options (3)</span><span>QUEUED</span></div>
+      <div class="drill-pill"><span>13_error_handling (6)</span><span>QUEUED</span></div>
+      <div class="drill-pill"><span>14_generics (2)</span><span>QUEUED</span></div>
+      <div class="drill-pill"><span>15_traits (5)</span><span>QUEUED</span></div>
+      <div class="drill-pill"><span>16_lifetimes (3)</span><span>QUEUED</span></div>
+    </div>
+  </div>
+
+  <!-- TAB 6: FINDINGS -->
+  <div id="tab-findings" class="tab-content">
+    <h2>Noteworthy Language Mechanics &amp; Invariants</h2>
+    
+    <div class="card">
+      <h3 style="color: var(--cyan-blue);">1. Statements vs Expressions and the Unit Trap</h3>
+      <p style="font-size: 0.92rem;">
+        Rust is an expression-oriented language. A trailing semicolon turns an expression into a statement, discarding its value and returning unit <code>()</code>. In functions returning concrete types (e.g. <code>i32</code>), trailing semicolons trigger compiler error <code>E0308</code>.
+      </p>
+      <pre><code>fn double(x: i32) -> i32 {
+    x * 2 // Evaluates to i32 and returns cleanly
+    // x * 2; // Returns (), causing compiler error E0308
+}</code></pre>
+    </div>
+
+    <div class="card">
+      <h3 style="color: var(--accent-ember-soft);">2. Dynamically Sized Types (DSTs) and Fat Pointers</h3>
+      <p style="font-size: 0.92rem;">
+        Range slicing (<code>a[1..4]</code>) yields an unsized slice <code>[T]</code>, not a fixed-size array <code>[T; 3]</code>. Because <code>[T]</code> has a dynamically determined size at runtime, it cannot exist as a bare local variable on the stack. Slices must live behind references (<code>&amp;[T]</code>), which form a 16-byte fat pointer carrying a 64-bit data address and a 64-bit length.
+      </p>
+      <pre><code>let a: [i32; 5] = [10, 20, 30, 40, 50];
+let slice: &amp;[i32] = &amp;a[1..4]; // 16-byte fat pointer (ptr to a[1], len = 3)
+let owned: Vec&lt;i32&gt; = a[1..4].to_vec(); // Explicit heap copy when caller owns memory</code></pre>
+    </div>
+
+    <div class="card">
+      <h3 style="color: var(--green-success);">3. Shadowing vs In-Place Mutability</h3>
+      <p style="font-size: 0.92rem;">
+        <code>let mut x</code> modifies existing memory while freezing the type. <code>let x</code> allocates a fresh stack variable, permitting type transformations while keeping the new binding immutable.
+      </p>
+      <pre><code>let raw = "  42  ";
+let parsed: u32 = raw.trim().parse().expect("valid integer"); // Clean type transformation</code></pre>
+    </div>
+
+    <div class="card">
+      <h3 style="color: var(--purple-magenta);">4. Algebraic Enums vs Discriminated Unions</h3>
+      <p style="font-size: 0.92rem;">
+        Unlike TypeScript discriminated unions that depend on runtime property checks (<code>type === "cash"</code>), Rust enums are nominal tagged unions. Match statements enforce exhaustiveness at compile time; introducing a new variant immediately flags all unhandled branches across the codebase.
+      </p>
+      <pre><code>enum Payment {
+    Cash(u32),
+    Card(String),
+    Crypto(String),
+}</code></pre>
+    </div>
+  </div>
+
+  <script>
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
+      document.getElementById('tab-' + tabId).classList.add('active');
+      event.target.classList.add('active');
+    }
+  </script>
+</body>
+</html>

@@ -2,7 +2,7 @@
 
 **Example: Payment methods**
 
-#### TypeScript — Union
+#### TypeScript - Union
 
 ```ts
 type Payment =
@@ -15,7 +15,7 @@ type Payment =
 - TypeScript uses the `type` field to determine which one it is.
 - You can use `if`/`switch` to narrow the type.
 
-#### Rust — Enum
+#### Rust - Enum
 
 ```rust
 enum Payment {

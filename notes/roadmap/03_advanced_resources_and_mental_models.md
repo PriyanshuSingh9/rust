@@ -1,4 +1,4 @@
-# 🦀 Rust Engineering Mastery: Advanced Resources, Mental Models & Systems Architecture
+#  Rust Engineering Mastery: Advanced Resources, Mental Models & Systems Architecture
 
 > **Author**: Principal Rust Systems Architect  
 > **Target Audience**: Engineers transitioning from foundational syntax (Chapters 1–3) to production-grade, high-performance systems engineering.  
@@ -446,8 +446,8 @@ fn nll_demonstration() {
     let r1 = &data[0]; // Immutable borrow begins
     println!("Read: {r1}"); // Last use of r1! Borrow of r1 ENDS here.
 
-    // ✅ In older Rust, this failed because lexical scope hadn't ended.
-    // ✅ In modern NLL Rust, this succeeds because r1's live range is dead.
+    //  In older Rust, this failed because lexical scope hadn't ended.
+    //  In modern NLL Rust, this succeeds because r1's live range is dead.
     data.push(4); // Exclusive mutable borrow succeeds!
 }
 ```
@@ -494,7 +494,7 @@ let mut vec = vec![1, 2, 3];
 for item in &vec { // Shared borrow of `vec` begins
     if *item == 2 {
         // vec.push(42); 
-        // ❌ COMPILE ERROR: cannot borrow `vec` as mutable because it is also borrowed as immutable.
+        //  COMPILE ERROR: cannot borrow `vec` as mutable because it is also borrowed as immutable.
         // Reason: `push` might reallocate the underlying heap buffer, 
         // leaving the iterator's `item` pointer dangling into deallocated memory!
     }
@@ -593,7 +593,7 @@ A trait can be made into a trait object (`dyn Trait`) **if and only if it is obj
 A trait is **object-safe** if:
 1. **The trait does not require `Self: Sized`**:
    ```rust
-   // ❌ NOT Object-Safe (cannot create `dyn NotSafe`)
+   //  NOT Object-Safe (cannot create `dyn NotSafe`)
    trait NotSafe: Sized {
        fn run(&self);
    }
@@ -601,14 +601,14 @@ A trait is **object-safe** if:
 2. **All associated methods meet the following criteria**:
    - Must not have generic type parameters:
      ```rust
-     // ❌ NOT Object-Safe: vtable would need infinite entries for every possible T!
+     //  NOT Object-Safe: vtable would need infinite entries for every possible T!
      trait BadGeneric {
          fn process<T>(&self, val: T);
      }
      ```
    - Must have a receiver that is a reference or smart pointer to `Self` (`&self`, `&mut self`, `Box<Self>`, `Rc<Self>`, `Arc<Self>`, `Pin<P>`):
      ```rust
-     // ❌ NOT Object-Safe: Static/constructor method with no receiver
+     //  NOT Object-Safe: Static/constructor method with no receiver
      trait BadConstructor {
          fn new() -> Self;
      }
@@ -620,9 +620,9 @@ You can keep a trait object-safe while providing helper or constructor methods b
 
 ```rust
 trait Stream {
-    fn next_chunk(&mut self) -> Option<Vec<u8>>; // ✅ Object-Safe method
+    fn next_chunk(&mut self) -> Option<Vec<u8>>; //  Object-Safe method
 
-    // ✅ Trait remains object-safe! `boxed` is excluded from the vtable:
+    //  Trait remains object-safe! `boxed` is excluded from the vtable:
     fn boxed(self) -> Box<Self>
     where
         Self: Sized,
@@ -922,12 +922,12 @@ Tokio tasks cooperatively yield execution back to the scheduler at every `.await
 > **The Golden Rule of Async Rust**: Never execute blocking CPU-bound computations or synchronous filesystem/database calls inside an async task! Doing so starves worker threads from polling other ready tasks.
 
 ```rust
-// ❌ ANTI-PATTERN: Blocks the entire Tokio worker thread!
+//  ANTI-PATTERN: Blocks the entire Tokio worker thread!
 async fn bad_handler() {
     std::thread::sleep(std::time::Duration::from_secs(5)); // Starvation!
 }
 
-// ✅ IDIOMATIC: Offload blocking tasks to the dedicated blocking thread pool
+//  IDIOMATIC: Offload blocking tasks to the dedicated blocking thread pool
 async fn good_handler() {
     tokio::task::spawn_blocking(|| {
         // Runs on a separate, dedicated blocking thread pool without starving Tokio workers

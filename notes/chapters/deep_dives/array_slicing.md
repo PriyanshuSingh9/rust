@@ -1,7 +1,7 @@
-# 🦀 Array Slicing, Unsized Types, and Owned Copies
+#  Array Slicing, Unsized Types, and Owned Copies
 
 Why `let b = a[1..4];` fails, what slices really are, and how to get independent
-copies instead of views. Companion code: `rust_book/basics/practice/src/main.rs`
+copies instead of views. Companion code: `tute/rust_book/basics/slices_and_copies/src/main.rs`
 (`slices_and_copies`).
 
 ---

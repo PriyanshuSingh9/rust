@@ -1,4 +1,4 @@
-# 🔬 Scopes, Mutability, and Variable Shadowing in Rust
+#  Scopes, Mutability, and Variable Shadowing in Rust
 
 A deep dive into how Rust manages variable lifetimes, scopes, immutability, and variable shadowing.
 
@@ -21,7 +21,7 @@ fn main() {
     } // inner_val goes out of scope and its memory is cleaned up
 
     println!("Outer: {outer_val}");
-    // println!("{inner_val}"); // ❌ ERROR: cannot find value `inner_val` in this scope
+    // println!("{inner_val}"); //  ERROR: cannot find value `inner_val` in this scope
 }
 ```
 
@@ -36,13 +36,13 @@ fn main() {
 ```rust
 // Example 1: Mutability
 let mut count = 5;
-count = 6; // ✅ Value changed
-// count = "six"; // ❌ Type mismatch error: expected integer, found &str
+count = 6; //  Value changed
+// count = "six"; //  Type mismatch error: expected integer, found &str
 
 // Example 2: Shadowing
 let count = 5;
-let count = count + 1; // ✅ New variable: count is 6
-let count = "six";     // ✅ New variable with DIFFERENT TYPE: count is &str
+let count = count + 1; //  New variable: count is 6
+let count = "six";     //  New variable with DIFFERENT TYPE: count is &str
 ```
 
 ---
@@ -84,7 +84,7 @@ fn main() {
 ### Pitfall 1: Reassigning an Immutable Variable
 ```rust
 let x = 5;
-x = 10; // ❌ [E0384]: cannot assign twice to immutable variable `x`
+x = 10; //  [E0384]: cannot assign twice to immutable variable `x`
 ```
 *Fix:* Use `let mut x = 5;` or shadow with `let x = 10;`.
 
@@ -94,12 +94,12 @@ let x = 5;
 {
     let x = 10;
 }
-x = 20; // ❌ [E0384]: Outer `x` was never mutable!
+x = 20; //  [E0384]: Outer `x` was never mutable!
 ```
 
 ### Pitfall 3: Trying to change type on `mut`
 ```rust
 let mut buffer = "   ";
-buffer = buffer.len(); // ❌ [E0308]: mismatched types: expected `&str`, found `usize`
+buffer = buffer.len(); //  [E0308]: mismatched types: expected `&str`, found `usize`
 ```
 *Fix:* Use shadowing: `let buffer = buffer.len();`.

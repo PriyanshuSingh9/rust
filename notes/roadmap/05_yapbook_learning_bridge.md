@@ -1,4 +1,4 @@
-# 🚀 Yapbook ⟷ Rust Mastery Bridge: Learning by Building
+#  Yapbook ⟷ Rust Mastery Bridge: Learning by Building
 
 > **Project Reference:** [`/home/bhondu/coding/projects/yapbook`](file:///home/bhondu/coding/projects/yapbook)  
 > **Your Engineering Roadmap:** [`yapbook/docs/priyanshu/milestones.md`](file:///home/bhondu/coding/projects/yapbook/docs/priyanshu/milestones.md)  
@@ -6,7 +6,7 @@
 
 ---
 
-## 🎯 The Perfect Synergy: Applying Theory to Yapbook
+##  The Perfect Synergy: Applying Theory to Yapbook
 
 Rather than building arbitrary toy apps, you have an incredible production-grade application already architected in **Yapbook**. Every single concept in your Rust learning path directly translates into implementing one of your milestones in Yapbook.
 
@@ -18,35 +18,35 @@ Here is the exact mapping between what you are studying and what you build in Ya
 ├──────────────────────────────────────┬──────────────────────────────────────────────────────┤
 │ Rust Learning Topic                  │ Yapbook Milestone Implementation                     │
 ├──────────────────────────────────────┼──────────────────────────────────────────────────────┤
-│ 1. Ch 4: Ownership, Borrowing, Slices│ 🛠️ Feature P2: Streaming WhatsApp Parser             │
+│ 1. Ch 4: Ownership, Borrowing, Slices│  Feature P2: Streaming WhatsApp Parser             │
 │    • Slices (&str, &[u8])            │    • Zero-copy message line tokenization             │
 │    • Stack vs Heap allocations       │    • Peak RAM < 10 MB on 126k messages               │
 ├──────────────────────────────────────┼──────────────────────────────────────────────────────┤
-│ 2. Ch 5–6: Structs, Enums, Matching  │ 🛠️ Feature P1 & P2: Data Models & Error Types        │
+│ 2. Ch 5–6: Structs, Enums, Matching  │  Feature P1 & P2: Data Models & Error Types        │
 │    • Rich payload Enums              │    • `AppError` enum (`thiserror` derive)            │
 │    • Pattern matching (`match`)      │    • `Message`, `MessageType`, `MessageShape`        │
 ├──────────────────────────────────────┼──────────────────────────────────────────────────────┤
-│ 3. Ch 7–8: Modules & Collections     │ 🛠️ Feature P3: Statistical Analytics Engine          │
+│ 3. Ch 7–8: Modules & Collections     │  Feature P3: Statistical Analytics Engine          │
 │    • HashMaps & Entry API            │    • Single-pass O(N) metric accumulator             │
 │    • Module tree (`pub(crate)`)      │    • N×N directional reply graph & activity matrix   │
 ├──────────────────────────────────────┼──────────────────────────────────────────────────────┤
-│ 4. Ch 9–10: Error Handling & Traits  │ 🛠️ Feature P5: Session Segmenter & Signal Gate       │
+│ 4. Ch 9–10: Error Handling & Traits  │  Feature P5: Session Segmenter & Signal Gate       │
 │    • `Result<T, AppError>`, `?`      │    • Custom scoring traits                           │
 │    • Trait bounds & generics         │    • Inactivity boundary splitter                    │
 ├──────────────────────────────────────┼──────────────────────────────────────────────────────┤
-│ 5. Ch 11–13: Tests, I/O & Iterators  │ 🛠️ Custom `Iterator` for Parser + Benchmarks         │
+│ 5. Ch 11–13: Tests, I/O & Iterators  │  Custom `Iterator` for Parser + Benchmarks         │
 │    • Implementing `Iterator` trait   │    • `struct MessageParser<R: BufRead>`              │
 │    • Integration testing fixtures    │    • Verification against `chat-stats/report.json`   │
 ├──────────────────────────────────────┼──────────────────────────────────────────────────────┤
-│ 6. Ch 15–16: Smart Pointers & Threads│ 🛠️ Feature P4: SQLite WAL Database Writer Actor      │
+│ 6. Ch 15–16: Smart Pointers & Threads│  Feature P4: SQLite WAL Database Writer Actor      │
 │    • `mpsc` channels (`tokio::sync`) │    • Single Writer Actor pattern (0 `SQLITE_BUSY`)   │
 │    • `Arc<Mutex<T>>` / `RwLock`      │    • Safe concurrent SQLite access across IPC tasks  │
 ├──────────────────────────────────────┼──────────────────────────────────────────────────────┤
-│ 7. Async Rust & Sidecar Supervision  │ 🛠️ Feature P6: `llama-server` Process Supervisor     │
+│ 7. Async Rust & Sidecar Supervision  │  Feature P6: `llama-server` Process Supervisor     │
 │    • Tokio async tasks & signals     │    • Child process management & health polling      │
 │    • `spawn_blocking` for CPU bounds │    • Orphan process cleanup on crash / exit          │
 ├──────────────────────────────────────┼──────────────────────────────────────────────────────┤
-│ 8. Image Pipelines & Systems Crates  │ 🛠️ Feature P10 & P11: Artifact Store & Compositor    │
+│ 8. Image Pipelines & Systems Crates  │  Feature P10 & P11: Artifact Store & Compositor    │
 │    • SHA-256 content addressing      │    • Immutable disk caching: `artifacts/objects/`    │
 │    • `image`, `ab_glyph`, `imageproc`│    • 300 DPI multi-panel comic PDF/PNG rendering     │
 └──────────────────────────────────────┴──────────────────────────────────────────────────────┘
@@ -54,7 +54,7 @@ Here is the exact mapping between what you are studying and what you build in Ya
 
 ---
 
-## 🛠️ Sprint-by-Sprint Execution Guide for Yapbook
+##  Sprint-by-Sprint Execution Guide for Yapbook
 
 ### Sprint 1: Foundation & High-Performance Ingestion
 * **What you study:** TRPL Chapters 4, 5, 6, 7, 8 + Ciulla Chapter 6 (`thiserror`/`anyhow`).
@@ -102,7 +102,7 @@ Here is the exact mapping between what you are studying and what you build in Ya
 
 ---
 
-## 🎯 Immediate Coding Action: Feature P1 & P2
+##  Immediate Coding Action: Feature P1 & P2
 
 Now that you have finished Chapter 3, as you read Chapter 4:
 1. Initialize the `AppError` and `Message` data models inside `src-tauri/src/`.

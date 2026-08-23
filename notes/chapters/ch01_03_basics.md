@@ -12,7 +12,7 @@ By default, variables in Rust are **immutable**. Once bound to a value, you cann
 
 ```rust
 let x = 5;
-// x = 6; // ❌ ERROR: cannot assign twice to immutable variable `x`
+// x = 6; //  ERROR: cannot assign twice to immutable variable `x`
 ```
 
 ### Mutability (`mut`)
@@ -21,8 +21,8 @@ Using `mut` allows reassigning a variable's **value**, but **never its type**.
 
 ```rust
 let mut x = 5;
-x = 6; // ✅ Allowed
-// x = "six"; // ❌ ERROR: mismatched types (expected integer, found &str)
+x = 6; //  Allowed
+// x = "six"; //  ERROR: mismatched types (expected integer, found &str)
 ```
 
 ### Constants (`const`)
@@ -69,9 +69,9 @@ println!("Outer x: {x}"); // 5 (outer x was unchanged!)
 
 | Feature                | `let` (Immutable) | `let mut` (Mutable) | Shadowing (`let`)         |
 | :--------------------- | :---------------- | :------------------ | :------------------------ |
-| **Can change value?**  | ❌ No             | ✅ Yes (`x = 6`)    | ✅ Yes (new binding)      |
-| **Can change type?**   | ❌ No             | ❌ No               | ✅ Yes (`let x = "str"`)  |
-| **Remains immutable?** | ✅ Yes            | ❌ No               | ✅ Yes (unless `let mut`) |
+| **Can change value?**  |  No             |  Yes (`x = 6`)    |  Yes (new binding)      |
+| **Can change type?**   |  No             |  No               |  Yes (`let x = "str"`)  |
+| **Remains immutable?** |  Yes            |  No               |  Yes (unless `let mut`) |
 
 ---
 
@@ -87,7 +87,7 @@ Rust is **statically typed**; the compiler must know or infer all types at compi
    - **Integer Overflow:** In `debug` builds, overflow causes a runtime panic. In `--release` builds, Rust performs two's complement wrapping.
 2. **Floating-Point:** `f32`, `f64` (default; provides high precision with near-identical speed on modern 64-bit CPUs).
 3. **Booleans:** `bool` (`true` or `false`).
-4. **Characters:** `char` (4 bytes; represents a Unicode Scalar Value, e.g., `'a'`, `'😻'`, `'中'`). Uses single quotes `' '`.
+4. **Characters:** `char` (4 bytes; represents a Unicode Scalar Value, e.g., `'a'`, `''`, `'中'`). Uses single quotes `' '`.
 
 ### Compound Types (Multiple Values)
 
@@ -118,8 +118,8 @@ Adding a semicolon turns an expression into a statement, discarding its value an
 
 ```rust
 fn add_one(x: i32) -> i32 {
-    x + 1 // Expression -> returns i32 ✅
-    // x + 1; // Statement -> returns () ❌ (causes mismatched types error [E0308])
+    x + 1 // Expression -> returns i32 
+    // x + 1; // Statement -> returns ()  (causes mismatched types error [E0308])
 }
 ```
 
@@ -135,8 +135,8 @@ fn add_one(x: i32) -> i32 {
 
 ```rust
 let condition = true;
-let number = if condition { 5 } else { 6 }; // ✅ Both branches return integer
-// let number = if condition { 5 } else { "six" }; // ❌ ERROR: incompatible arm types
+let number = if condition { 5 } else { 6 }; //  Both branches return integer
+// let number = if condition { 5 } else { "six" }; //  ERROR: incompatible arm types
 ```
 
 ### Loops

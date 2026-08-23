@@ -1,0 +1,118 @@
+# Rust Systems & Distributed Systems Glossary
+
+Canonical terminology and precise definitions for this workspace.
+
+---
+
+## Memory, Layout & Types
+
+**Scalar Type**:
+A primitive type representing a single value (integers, floating-point numbers, booleans, and characters).
+
+**Compound Type**:
+A type that groups multiple values into one structure (fixed-size tuples and fixed-size arrays).
+
+**Fat Pointer**:
+A two-word pointer on the stack containing both a memory address and metadata (such as length for slices `&[T]` or a vtable pointer for trait objects `&dyn Trait`).
+
+**Dynamically Sized Type (DST) / Unsized Type**:
+A type whose size cannot be determined at compile time (such as `[T]` or `str`). Sized variables cannot hold DSTs directly on the stack; they must exist behind a pointer (`&[T]`, `Box<str>`).
+
+**Move Semantics**:
+The transfer of ownership of a resource from one variable binding to another via a shallow bitwise copy of its stack descriptor and compile-time invalidation of the source binding.
+
+**Non-Lexical Lifetimes (NLL)**:
+A borrow-checker mechanism that calculates liveness of references based on control-flow graph usage rather than curly-brace lexical scopes.
+
+**Interior Mutability**:
+A design pattern in Rust that allows mutating data even when there are immutable references to that data, enforcing borrow rules at runtime (`RefCell<T>`) or via synchronization primitives (`Mutex<T>`, `RwLock<T>`).
+
+**Monomorphization**:
+The compile-time process of turning generic code into specific code by generating copies of functions for each concrete type used, enabling static dispatch with zero runtime performance cost.
+
+**Dynamic Dispatch (`dyn Trait`)**:
+Indirect method invocation resolved at runtime via a vtable pointer inside a fat pointer (`[data_ptr, vtable_ptr]`), enabling heterogeneous collections at the cost of branch prediction overhead and inhibiting compiler inlining.
+
+---
+
+## Hardware Architecture & Memory Safety
+
+**Memory Management Unit (MMU)**:
+A hardware component on the CPU that translates virtual addresses into physical DRAM addresses using multi-level page tables and caches translations in the TLB (Translation Lookaside Buffer).
+
+**Segmentation Fault (`SIGSEGV`)**:
+An operating system signal (signal 11) sent to a process when hardware memory protection is violated, such as dereferencing an unmapped virtual address, writing to read-only memory, or crossing into kernel space.
+
+**Page Fault (`#PF`)**:
+A CPU hardware interrupt (Vector 14) raised when an instruction references a virtual page that is either not mapped in physical RAM (Present bit = 0) or lacks the required access permissions (R/W/X).
+
+**Stack Guard Page**:
+An unallocated, protected page with `PROT_NONE` permissions placed at the bottom of a thread's stack region by the OS kernel to detect stack overflows and trigger an instant abort before adjacent memory can be corrupted.
+
+**Undefined Behavior (UB)**:
+A state in which code breaks language specification invariants, freeing optimizing compilers to make aggressive assumptions (e.g. deleting null checks, removing loops, or reordering instructions) that result in unpredictable execution, memory corruption, or security vulnerabilities.
+
+**Use-After-Free (UAF)**:
+A memory safety flaw occurring when a program accesses memory via a pointer after that memory has been deallocated, allowing malicious payloads to hijack control flow upon reallocation.
+
+**Double Free**:
+A memory corruption vulnerability where deallocation (`free()`) is invoked twice on the same memory address, corrupting allocator metadata and freelist links.
+
+**Pointer Safety Principle**:
+The architectural rule that data must never be simultaneously aliased and mutated. Enforced in Rust via the Aliasing XOR Mutability invariant.
+
+**Aliasing**:
+Accessing the same memory location through multiple different variable bindings or pointer paths. Harmless when read-only; catastrophic when combined with mutation or deallocation.
+
+**Pointer / Iterator Invalidation**:
+A bug where modifying or growing a data structure causes its internal memory buffer to be reallocated, turning existing pointers or references into dangling pointers pointing to freed memory.
+
+**Dangling Reference**:
+A reference that points to invalid memory (e.g. stack memory whose frame has been popped upon function return, or heap memory that has been deallocated). Prevented in Rust at compile time.
+
+---
+
+## Language Semantics & Patterns
+
+**Statement**:
+An instruction that performs an action and does not return a value. Statements end with semicolons.
+
+**Expression**:
+A code segment that computes and evaluates to a resultant value. Expressions do not end with semicolons when returned from a block.
+
+**Shadowing**:
+Re-declaring a variable using the `let` keyword with an existing identifier. This allocates a new variable binding, permits changing the type, and keeps the binding immutable unless explicitly marked `mut`.
+
+**Algebraic Data Type (ADT)**:
+A composite type where values can be formed by sum types (enums) or product types (structs/tuples). Rust enums can carry distinct payload types per variant.
+
+**RAII (Resource Acquisition Is Initialization) / Drop**:
+A deterministic resource cleanup pattern where resources are freed immediately when their owning scope ends via the `Drop` trait.
+
+**Type-State Pattern**:
+An idiom encoding state machine invariants into distinct Rust types (`DraftPost -> PendingReviewPost -> Post`). Transitions consume `self` by value, making invalid operations impossible to represent at compile time.
+
+**Pinning (`Pin<&mut T>`)**:
+A wrapper that guarantees the pointee will not be moved in memory until dropped, enabling safe self-referential generator state machines generated by `async`/`await`.
+
+---
+
+## Distributed Systems, Git & Edge Infrastructure
+
+**Write-Ahead Log (WAL)**:
+An append-only disk log where mutations are recorded before being applied to the in-memory state or database. Guarantees linearizability and crash recovery.
+
+**Compare-and-Swap (CAS) Lease / Epoch Fencing**:
+A distributed coordination primitive where a node claims or renews ownership of a resource (e.g. an addressable actor or cell) using an atomic conditional write in object storage without requiring a consensus cluster.
+
+**LTX (Litestream Transaction Log)**:
+A binary transaction log format that encodes page-level diffs of SQLite databases, allowing continuous point-in-time replication to object storage.
+
+**FUSE (Filesystem in Userspace)**:
+An operating system interface that allows non-privileged programs to implement virtual filesystems in user space (e.g. `fuser` in Rust) by intercepting POSIX system calls like `open()`, `read()`, and `stat()`.
+
+**Smart HTTP / `pkt-line`**:
+The Git wire transport protocol. Data is streamed in packets prefixed with a 4-hex-character length (`pkt-line`), used by `git-upload-pack` (clones/fetches) and `git-receive-pack` (pushes).
+
+**Zero-Copy Slicing**:
+Processing network packets, file chunks, or JSON ASTs by referencing sub-slices of an existing memory buffer (`&[u8]`, `bytes::Bytes`, `memmap2`) without copying bytes into intermediate heap allocations.
