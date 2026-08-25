@@ -222,20 +222,20 @@
   <!-- Top Metrics Bar -->
   <div class="grid-4" style="margin-bottom: 1.75rem;">
     <div class="metric-box accent">
-      <div class="metric-val">6</div>
+      <div class="metric-val">7</div>
       <div class="metric-lbl">Active Days Verified</div>
     </div>
     <div class="metric-box success">
-      <div class="metric-val">30 / 96</div>
-      <div class="metric-lbl">Rustlings Drills (31%)</div>
+      <div class="metric-val">36 / 96</div>
+      <div class="metric-lbl">Rustlings Drills (38%)</div>
     </div>
     <div class="metric-box info">
-      <div class="metric-val">9</div>
+      <div class="metric-val">14</div>
       <div class="metric-lbl">Git Commits Logged</div>
     </div>
     <div class="metric-box">
       <div class="metric-val">Phase 1</div>
-      <div class="metric-lbl">Current Milestone (55%)</div>
+      <div class="metric-lbl">Current Milestone (75%)</div>
     </div>
   </div>
 
@@ -438,7 +438,7 @@
         </div>
       </div>
       <div class="progress-bar-container">
-        <div class="progress-bar-fill" style="width: 55%;"></div>
+        <div class="progress-bar-fill" style="width: 75%;"></div>
       </div>
 
       <div class="dual-track-row">
@@ -449,9 +449,9 @@
             &bull; <strong>Ch 2:</strong> Guessing Game (io, rand, match) <span class="badge badge-complete">DONE</span><br>
             &bull; <strong>Ch 3:</strong> Variables, Types, Functions, Loops <span class="badge badge-complete">DONE</span><br>
             &bull; <strong>Ch 4:</strong> Ownership, Borrowing &amp; Slices <span class="badge badge-complete">DONE</span><br>
-            &bull; <strong>Ch 5:</strong> Structs, Methods &amp; Associated Functions <span class="badge badge-progress">CURRENT</span><br>
-            &bull; <strong>Ch 6:</strong> Enums, Option, Result &amp; Pattern Matching<br>
-            &bull; <strong>Ch 7:</strong> Modules, Packages &amp; Visibility (<code>pub(crate)</code>)<br>
+            &bull; <strong>Ch 5:</strong> Structs, Methods &amp; Associated Functions <span class="badge badge-complete">DONE</span><br>
+            &bull; <strong>Ch 6:</strong> Enums, Option, Result &amp; Pattern Matching <span class="badge badge-complete">DONE</span><br>
+            &bull; <strong>Ch 7:</strong> Modules, Packages &amp; Visibility (<code>pub(crate)</code>) <span class="badge badge-progress">CURRENT</span><br>
             &bull; <strong>Ch 8:</strong> Collections (Vec, String, HashMap Entry API)<br>
             &bull; <strong>Ch 9:</strong> Error Handling (<code>Result</code>, <code>?</code> operator, panics)
           </div>
@@ -462,8 +462,8 @@
             &bull; <strong>Ch 1:</strong> Modern Rust Setup &amp; Ecosystem <span class="badge badge-complete">DONE</span><br>
             &bull; <strong>Ch 2–3:</strong> Expressions, Syntax &amp; Scalar Memory <span class="badge badge-complete">DONE</span><br>
             &bull; <strong>Ch 4:</strong> Ownership, Borrowing &amp; References <span class="badge badge-complete">DONE</span><br>
-            &bull; <strong>Ch 5:</strong> Structs, Tuple Structs &amp; Enums <span class="badge badge-progress">CURRENT</span><br>
-            &bull; <strong>Ch 6:</strong> Modern Error Handling with <code>thiserror</code> &amp; <code>anyhow</code>
+            &bull; <strong>Ch 5:</strong> Structs, Tuple Structs &amp; Enums <span class="badge badge-complete">DONE</span><br>
+            &bull; <strong>Ch 6:</strong> Modern Error Handling with <code>thiserror</code> &amp; <code>anyhow</code> <span class="badge badge-progress">CURRENT</span>
           </div>
         </div>
       </div>
@@ -796,6 +796,28 @@
     </p>
 
     <div class="timeline-item">
+      <div class="timeline-date">2026-08-26 (Wednesday) &bull; Active Working Session</div>
+      <strong style="color: #ffffff;">Chapter 6 Enums, Tagged Unions &amp; Rustlings 08_enums (36 / 96 Drills)</strong>
+      <p style="font-size: 0.9rem; margin-top: 0.35rem;">
+        Mastered algebraic sum types ($A + B$), tagged union stack memory alignment, and niche optimization (null-pointer optimization eliminating discriminant overhead for <code>Option&lt;&amp;T&gt;</code>). Explored reference push-down mechanics (<code>&amp;Option&lt;T&gt;</code> &rarr; <code>Option&lt;&amp;T&gt;</code>), exhaustive pattern matching with <code>match</code>, and concise control flow via <code>if let</code> and <code>let else</code> guard clauses. Completed Rustlings <code>08_enums</code> (enums1-3).
+      </p>
+      <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">
+        Verified files: <code>notes/chapters/ch06_enums.md</code>, <code>notes/learning-records/0011-*</code>, <code>tute/rust_book/enums/src/main.rs</code>, <code>tute/rustlings/exercises/08_enums/*</code>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-date">2026-08-25 (Tuesday) &bull; Active Working Session</div>
+      <strong style="color: #ffffff;">Chapter 5 Structs, Methods, Ownership Permissions &amp; Rustlings 07_structs</strong>
+      <p style="font-size: 0.9rem; margin-top: 0.35rem;">
+        Formulated the compile-time permissions model for method receivers: <code>&amp;self</code> (Read $R$), <code>&amp;mut self</code> (Read $R$ + Write $W$), and <code>self</code> by-value (Read $R$ + Own $O$). Proved compiler safety invariant <code>E0507</code> preventing double-frees on heap fields during moves behind references. Mastered attribute categories (outer <code>#[...]</code> vs inner <code>#![...]</code>), struct update syntax with partial moves, unit-like structs (ZSTs), and completed Rustlings <code>07_structs</code> (structs1-3).
+      </p>
+      <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">
+        Verified files: <code>notes/chapters/ch05_structs.md</code>, <code>notes/reference/attributes.md</code>, <code>notes/learning-records/0010-*</code>, <code>tute/rust_book/structs/*</code>, <code>tute/rustlings/exercises/07_structs/*</code>
+      </div>
+    </div>
+
+    <div class="timeline-item">
       <div class="timeline-date">2026-08-23 (Sunday) &bull; Active Working Session</div>
       <strong style="color: #ffffff;">Vectors &amp; Move Semantics Drill Acceleration (30 / 96 Drills)</strong>
       <p style="font-size: 0.9rem; margin-top: 0.35rem;">
@@ -876,7 +898,7 @@
   <!-- TAB 5: RUSTLINGS DRILL MATRIX -->
   <div id="tab-rustlings" class="tab-content">
     <h2>Rustlings Drill Matrix</h2>
-    <p>Completed 30 of 96 exercises + 1 of 3 quizzes.</p>
+    <p>Completed 36 of 96 exercises + 1 of 3 quizzes.</p>
 
     <h3>00_intro (2/2)</h3>
     <div class="drill-grid">
@@ -942,11 +964,23 @@
       <div class="drill-pill done"><span>move_semantics5.rs</span><span>DONE</span></div>
     </div>
 
+    <h3>07_structs (3/3)</h3>
+    <div class="drill-grid">
+      <div class="drill-pill done"><span>structs1.rs</span><span>DONE</span></div>
+      <div class="drill-pill done"><span>structs2.rs</span><span>DONE</span></div>
+      <div class="drill-pill done"><span>structs3.rs</span><span>DONE</span></div>
+    </div>
+
+    <h3>08_enums (3/3)</h3>
+    <div class="drill-grid">
+      <div class="drill-pill done"><span>enums1.rs</span><span>DONE</span></div>
+      <div class="drill-pill done"><span>enums2.rs</span><span>DONE</span></div>
+      <div class="drill-pill done"><span>enums3.rs</span><span>DONE</span></div>
+    </div>
+
     <h3>Upcoming Problem Sets</h3>
     <div class="drill-grid">
-      <div class="drill-pill"><span>07_structs (3)</span><span>NEXT</span></div>
-      <div class="drill-pill"><span>08_enums (3)</span><span>QUEUED</span></div>
-      <div class="drill-pill"><span>09_strings (4)</span><span>QUEUED</span></div>
+      <div class="drill-pill"><span>09_strings (4)</span><span>NEXT</span></div>
       <div class="drill-pill"><span>10_modules (3)</span><span>QUEUED</span></div>
       <div class="drill-pill"><span>11_hashmaps (3)</span><span>QUEUED</span></div>
       <div class="drill-pill"><span>12_options (3)</span><span>QUEUED</span></div>
