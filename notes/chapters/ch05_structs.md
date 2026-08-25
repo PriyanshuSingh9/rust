@@ -209,4 +209,59 @@ fn main() {
     *x_direct += 1;
     println!("{} {}", p.x, p.y); // Allowed because Rust tracks field disjointness
 }
+
+---
+
+## 7. Practical Drill Insights & Edge Cases (Rustlings `07_structs`)
+
+### 7.1 Struct Update Syntax (`..template`) and Partial Moves
+The struct update syntax assigns fields individually (`field: template.field`):
+
+```rust
+struct Order {
+    name: String,   // Non-Copy (Heap allocated)
+    year: u32,       // Copy (Stack primitive)
+    count: u32,      // Copy (Stack primitive)
+}
+
+let template = Order {
+    name: String::from("Template"),
+    year: 2024,
+    count: 0,
+};
+
+// Case A: Non-Copy field is overridden -> Template is NOT moved
+let order_a = Order {
+    name: String::from("Custom"),
+    count: 10,
+    ..template // Only `year: u32` is copied
+};
+// `template` remains fully valid and usable!
+
+// Case B: Non-Copy field is NOT overridden -> Template is partially moved
+let order_b = Order {
+    count: 20,
+    ..template // `name: String` is MOVED into order_b
+};
+// `template.name` is gone; `template` cannot be used as a whole (E0382)
 ```
+
+### 7.2 Strategies for Copying Structs with Heap Fields
+
+| Strategy | Syntax | Allocations | Use Case |
+| :--- | :--- | :--- | :--- |
+| **Selective Field Clone** | `name: template.name.clone(), ..template` | 1 heap allocation for `name` | When only 1 or 2 heap fields need to be duplicated. |
+| **Whole Struct Clone** | `..template.clone()` | Allocates all heap fields | When the struct derives `Clone` and has many heap fields. |
+| **Shared Ref-Counted Slices** | `name: Arc<str>` | 0 heap allocations | Immutable shared strings across instances. |
+
+### 7.3 Unit-Like Structs (Zero-Sized Types / ZSTs)
+- Declared with `struct UnitStruct;` (no braces or parentheses).
+- Occupies **0 bytes** of RAM (`std::mem::size_of::<UnitStruct>() == 0`).
+- Instantiated directly by name (`let u = UnitStruct;`).
+- Ideal for marker traits, compile-time state encoding (Type-State pattern), and stateless service dispatchers.
+
+### 7.4 Tuple Structs vs Anonymous Tuples
+- Tuple structs create distinct nominal types: `struct Color(u8, u8, u8);` cannot be accidentally interchanged with `struct Point(u8, u8, u8);`.
+- Must be instantiated with the struct identifier (`Color(0, 255, 0)`), not a raw tuple `(0, 255, 0)`.
+- Fields are accessed via zero-based indices (`color.0`, `color.1`, `color.2`).
+
