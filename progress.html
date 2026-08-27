@@ -222,7 +222,7 @@
   <!-- Top Metrics Bar -->
   <div class="grid-4" style="margin-bottom: 1.75rem;">
     <div class="metric-box accent">
-      <div class="metric-val">7</div>
+      <div class="metric-val">8</div>
       <div class="metric-lbl">Active Days Verified</div>
     </div>
     <div class="metric-box success">
@@ -230,12 +230,12 @@
       <div class="metric-lbl">Rustlings Drills (38%)</div>
     </div>
     <div class="metric-box info">
-      <div class="metric-val">14</div>
+      <div class="metric-val">15</div>
       <div class="metric-lbl">Git Commits Logged</div>
     </div>
     <div class="metric-box">
       <div class="metric-val">Phase 1</div>
-      <div class="metric-lbl">Current Milestone (75%)</div>
+      <div class="metric-lbl">Current Milestone (88%)</div>
     </div>
   </div>
 
@@ -438,7 +438,7 @@
         </div>
       </div>
       <div class="progress-bar-container">
-        <div class="progress-bar-fill" style="width: 75%;"></div>
+        <div class="progress-bar-fill" style="width: 88%;"></div>
       </div>
 
       <div class="dual-track-row">
@@ -452,8 +452,8 @@
             &bull; <strong>Ch 5:</strong> Structs, Methods &amp; Associated Functions <span class="badge badge-complete">DONE</span><br>
             &bull; <strong>Ch 6:</strong> Enums, Option, Result &amp; Pattern Matching <span class="badge badge-complete">DONE</span><br>
             &bull; <strong>Ch 7:</strong> Modules, Packages &amp; Visibility (<code>pub(crate)</code>) <span class="badge badge-complete">DONE</span><br>
-            &bull; <strong>Ch 8:</strong> Collections (Vec, String, HashMap Entry API) <span class="badge badge-progress">CURRENT</span><br>
-            &bull; <strong>Ch 9:</strong> Error Handling (<code>Result</code>, <code>?</code> operator, panics)
+            &bull; <strong>Ch 8:</strong> Collections (Vec, String, HashMap Entry API) <span class="badge badge-complete">DONE</span><br>
+            &bull; <strong>Ch 9:</strong> Error Handling (<code>Result</code>, <code>?</code> operator, panics) <span class="badge badge-progress">CURRENT</span>
           </div>
         </div>
         <div class="track-col track-ciulla">
@@ -794,6 +794,17 @@
     <p>
       Logged from git commits, file modification timestamps, and active working sessions.
     </p>
+
+    <div class="timeline-item">
+      <div class="timeline-date">2026-08-27 (Thursday) &bull; Active Working Session</div>
+      <strong style="color: #ffffff;">Chapter 8 Common Collections: Vectors, UTF-8 Strings &amp; HashMaps</strong>
+      <p style="font-size: 0.9rem; margin-top: 0.35rem;">
+        Analyzed tri-word stack descriptors (<code>ptr</code>, <code>cap</code>, <code>len</code>) for dynamically allocated heap buffers. Formulated the pointer invalidation hazard (<code>E0502</code>) where vector capacity reallocation invalidates interior element references. Dissected UTF-8 string memory invariants (why integer indexing <code>s[0]</code> is forbidden, byte length variance across scripts, and <code>chars</code> vs grapheme clusters). Mastered <code>HashMap&lt;K, V&gt;</code> ownership moves, collision-resistant SipHash hashing, and single-pass $O(N)$ mutations via the <code>Entry</code> API.
+      </p>
+      <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">
+        Verified files: <code>notes/chapters/ch08_common_collections.md</code>, <code>notes/learning-records/0013-*</code>
+      </div>
+    </div>
 
     <div class="timeline-item">
       <div class="timeline-date">2026-08-26 (Wednesday) &bull; Active Working Session</div>
