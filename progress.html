@@ -222,7 +222,7 @@
   <!-- Top Metrics Bar -->
   <div class="grid-4" style="margin-bottom: 1.75rem;">
     <div class="metric-box accent">
-      <div class="metric-val">10</div>
+      <div class="metric-val">11</div>
       <div class="metric-lbl">Active Days Verified</div>
     </div>
     <div class="metric-box success">
@@ -230,12 +230,12 @@
       <div class="metric-lbl">Rustlings Drills (57%)</div>
     </div>
     <div class="metric-box info">
-      <div class="metric-val">21</div>
+      <div class="metric-val">22</div>
       <div class="metric-lbl">Git Commits Logged</div>
     </div>
     <div class="metric-box">
       <div class="metric-val">Phase 2</div>
-      <div class="metric-lbl">Current Milestone (10%)</div>
+      <div class="metric-lbl">Current Milestone (20%)</div>
     </div>
   </div>
 
@@ -495,14 +495,14 @@
         </div>
       </div>
       <div class="progress-bar-container">
-        <div class="progress-bar-fill" style="width: 10%;"></div>
+        <div class="progress-bar-fill" style="width: 20%;"></div>
       </div>
 
       <div class="dual-track-row">
         <div class="track-col track-trpl">
           <h4>Track A: The Official Rust Book (TRPL)</h4>
           <div style="font-size: 0.88rem; color: var(--text-secondary);">
-            &bull; <strong>Ch 10:</strong> Generic Types, Trait Bounds, Lifetimes <span class="badge badge-progress">CURRENT (10.1 DONE)</span><br>
+            &bull; <strong>Ch 10:</strong> Generic Types, Trait Bounds, Lifetimes <span class="badge badge-progress">CURRENT (10.1 &amp; 10.2 DONE)</span><br>
             &bull; <strong>Ch 11:</strong> Writing Automated Unit &amp; Integration Tests (<code>#[cfg(test)]</code>)<br>
             &bull; <strong>Ch 12:</strong> CLI I/O Project (<code>minigrep</code> architecture)<br>
             &bull; <strong>Ch 13:</strong> Functional Features: Iterators (<code>map, fold, filter</code>) &amp; Closures (<code>Fn, FnMut, FnOnce</code>)<br>
@@ -797,6 +797,17 @@
     <p>
       Logged from git commits, file modification timestamps, and active working sessions.
     </p>
+
+    <div class="timeline-item">
+      <div class="timeline-date">2026-09-04 (Friday) &bull; Active Working Session</div>
+      <strong style="color: #ffffff;">Chapter 10.2 Traits: Defining Shared Behavior &amp; Coherence</strong>
+      <p style="font-size: 0.9rem; margin-top: 0.35rem;">
+        Mastered Rust trait contracts (<code>pub trait Summary</code>) and implementations across <code>NewsArticle</code> and <code>SocialPost</code>. Formulated the coherence property and the orphan rule invariant (forbidding external trait implementations on external types like <code>Display</code> on <code>Vec&lt;T&gt;</code>). Explored default method delegation, parameter trait bound ergonomics (<code>&amp;impl Trait</code> vs <code>&lt;T: Trait&gt;</code>), multi-bounds (<code>+</code>), and <code>where</code> clauses. Dissected the monomorphized single-type return restriction of <code>-&gt; impl Trait</code>, conditional method implementations (<code>Pair&lt;T: Display + PartialOrd&gt;</code>), and blanket implementations (<code>impl&lt;T: Display&gt; ToString for T</code>).
+      </p>
+      <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">
+        Verified files: <code>notes/chapters/ch10_02_traits.md</code>, <code>notes/learning-records/0017-*</code>, <code>tute/rust_book/traits/*</code>
+      </div>
+    </div>
 
     <div class="timeline-item">
       <div class="timeline-date">2026-09-02 (Wednesday) &bull; Active Working Session</div>
