@@ -222,7 +222,7 @@
   <!-- Top Metrics Bar -->
   <div class="grid-4" style="margin-bottom: 1.75rem;">
     <div class="metric-box accent">
-      <div class="metric-val">11</div>
+      <div class="metric-val">12</div>
       <div class="metric-lbl">Active Days Verified</div>
     </div>
     <div class="metric-box success">
@@ -230,12 +230,12 @@
       <div class="metric-lbl">Rustlings Drills (57%)</div>
     </div>
     <div class="metric-box info">
-      <div class="metric-val">22</div>
+      <div class="metric-val">23</div>
       <div class="metric-lbl">Git Commits Logged</div>
     </div>
     <div class="metric-box">
       <div class="metric-val">Phase 2</div>
-      <div class="metric-lbl">Current Milestone (20%)</div>
+      <div class="metric-lbl">Current Milestone (30%)</div>
     </div>
   </div>
 
@@ -495,15 +495,15 @@
         </div>
       </div>
       <div class="progress-bar-container">
-        <div class="progress-bar-fill" style="width: 20%;"></div>
+        <div class="progress-bar-fill" style="width: 30%;"></div>
       </div>
 
       <div class="dual-track-row">
         <div class="track-col track-trpl">
           <h4>Track A: The Official Rust Book (TRPL)</h4>
           <div style="font-size: 0.88rem; color: var(--text-secondary);">
-            &bull; <strong>Ch 10:</strong> Generic Types, Trait Bounds, Lifetimes <span class="badge badge-progress">CURRENT (10.1 &amp; 10.2 DONE)</span><br>
-            &bull; <strong>Ch 11:</strong> Writing Automated Unit &amp; Integration Tests (<code>#[cfg(test)]</code>)<br>
+            &bull; <strong>Ch 10:</strong> Generic Types, Trait Bounds, Lifetimes <span class="badge badge-complete">DONE</span><br>
+            &bull; <strong>Ch 11:</strong> Writing Automated Unit &amp; Integration Tests (<code>#[cfg(test)]</code>) <span class="badge badge-progress">CURRENT</span><br>
             &bull; <strong>Ch 12:</strong> CLI I/O Project (<code>minigrep</code> architecture)<br>
             &bull; <strong>Ch 13:</strong> Functional Features: Iterators (<code>map, fold, filter</code>) &amp; Closures (<code>Fn, FnMut, FnOnce</code>)<br>
             &bull; <strong>Ch 14:</strong> More About Cargo &amp; Workspaces
@@ -797,6 +797,17 @@
     <p>
       Logged from git commits, file modification timestamps, and active working sessions.
     </p>
+
+    <div class="timeline-item">
+      <div class="timeline-date">2026-09-16 (Wednesday) &bull; Active Working Session</div>
+      <strong style="color: #ffffff;">Chapter 10.3 Validating References with Lifetimes &amp; The Borrow Checker</strong>
+      <p style="font-size: 0.9rem; margin-top: 0.35rem;">
+        Mastered compile-time borrow checker scope intersection analysis to eliminate dangling references (<code>E0597</code>, <code>E0515</code>). Formulated generic lifetime annotations (<code>fn longest&lt;'a&gt;</code>) establishing that returned reference durations reflect the intersection of input argument scopes. Defined struct lifetime bounds (<code>struct ImportantExcerpt&lt;'a&gt;</code>) ensuring instances cannot outlive their borrowed data. Mastered the three deterministic Lifetime Elision Rules across functions and <code>&amp;self</code> method signatures, explored <code>'static</code> storage in <code>.rodata</code>, and unified generics, trait bounds (<code>where T: Display</code>), and lifetimes into a single signature (<code>longest_with_an_announcement</code>).
+      </p>
+      <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">
+        Verified files: <code>notes/chapters/ch10_03_lifetimes.md</code>, <code>notes/learning-records/0018-*</code>, <code>tute/rust_book/ref_with_lifetimes/*</code>
+      </div>
+    </div>
 
     <div class="timeline-item">
       <div class="timeline-date">2026-09-04 (Friday) &bull; Active Working Session</div>
